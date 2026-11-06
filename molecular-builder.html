@@ -48,7 +48,7 @@ function enumerate(){const core=$('core').value.trim();if(!RD)return;if((core.ma
  series=[];$('sg').innerHTML='';for(const s of $('subs').value.split('\n').map(x=>x.trim()).filter(Boolean)){const m=RD.get_mol(core.replace('[*]',()=>s));if(m&&m.is_valid()){const c=m.get_smiles();series.push([s,c]);$('sg').innerHTML+=`<div class="card">${m.get_svg(170,130)}<br><small>${esc(s)}</small><br><button data-s="${esc(c)}">Build</button></div>`}if(m)m.delete()}
  $('sm').textContent=series.length+' kandidat valid.'}
 function sdf2xyz(s){const L=s.split('\n'),n=+L[3].substr(0,3),o=[n,'molecule'];for(let i=0;i<n;i++){const p=L[4+i].trim().split(/\s+/);o.push(p[3].padEnd(3)+[p[0],p[1],p[2]].map(v=>(+v).toFixed(6).padStart(12)).join(''))}return o.join('\n')}
-function relax(m){const L=m.add_hs().split('\n'),n=+L[3].substr(0,3),nb=+L[3].substr(3,3),A=[],B=[];
+function relax(m){const mh=m.add_hs();if(!mh)throw new Error('RDKit gagal menambahkan hidrogen');const molblock=mh.get_molblock();mh.delete();const L=molblock.split('\n'),n=+L[3].substr(0,3),nb=+L[3].substr(3,3),A=[],B=[];
  for(let i=0;i<n;i++){const p=L[4+i].trim().split(/\s+/);A.push({e:p[3],r:[+p[0]*.93,+p[1]*.93,(Math.random()-.5)*.8]})}
  for(let i=0;i<nb;i++){const l=L[4+n+i];B.push([+l.substr(0,3)-1,+l.substr(3,3)-1,+l.substr(6,3)])}
  const arA=new Set(),arB=new Set(),q1=RD.get_qmol('[a]'),q2=RD.get_qmol('a:a');
@@ -73,7 +73,7 @@ async function gen3d(){if(!CAN||!RD)return;$('s3').textContent='Menyiapkan 3D…
  try{const r=await fetch('https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/smiles/'+encodeURIComponent(CAN)+'/SDF?record_type=3d');if(r.ok){sdf=await r.text();xyz=sdf2xyz(sdf);src='konformer 3D dari PubChem'}}catch(e){}
  if(!src){const m=RD.get_mol(CAN),r=relax(m);m.delete();xyz=r.xyz;sdf=r.sdf;src='pre-optimize kasar di browser: cek geometri, lalu refine (MMFF/xtb)'}
  localStorage.setItem('cc_xyz',xyz);$('s3').textContent='Selesai: '+src;
- if(!viewer)viewer=$3Dmol.createViewer($('v3'),{backgroundColor:'white'});viewer.clear();viewer.addModel(xyz,'xyz');viewer.setStyle({},{stick:{radius:.15},sphere:{scale:.25}});viewer.zoomTo();viewer.render()}
+ if(!viewer)viewer=$3Dmol.createViewer($('v3'),{backgroundColor:'white'});viewer.clear();viewer.addModel(xyz,'xyz');viewer.setStyle({},{stick:{radius:.15},sphere:{scale:.25}});viewer.zoomTo();viewer.render();window.addEventListener('resize',()=>{if(viewer){viewer.resize();viewer.render()}},{passive:true})}
 function jsmeOnLoad(){jsme=new JSApplet.JSME('jsme','100%','320px')}
 function fromEditor(){if(jsme){$('smi').value=jsme.smiles();build()}}
 function toEditor(){if(jsme)jsme.readGenericMolecularInput($('smi').value)}
