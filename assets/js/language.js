@@ -326,6 +326,28 @@
     "tiap elektron bergerak dalam medan rata-rata elektron lain.":"each electron moves in the average field of the other electrons."
   });
 
+
+  Object.assign(pageText.en,{
+    "Koordinat XYZ":"XYZ coordinates",
+    "(otomatis dari Molecular Builder, atau tempel/unggah file .xyz):":"(automatically loaded from Molecular Builder, or paste/upload a .xyz file):",
+    "Program":"Program",
+    "Job":"Job type",
+    "Fungsional":"Functional",
+    "Basis":"Basis set",
+    "Muatan":"Charge",
+    "Multiplisitas":"Multiplicity",
+    "Dispersi":"Dispersion",
+    "Pelarut":"Solvent",
+    "Mem/core MB":"Memory per core (MB)",
+    "Nama":"Filename",
+    "Keyword tambahan":"Additional keywords",
+    "Generate":"Generate input",
+    "Unduh":"Download",
+    "Opt Freq + TDDFT (terpisah)":"Opt Freq + TD-DFT (separate jobs)",
+    "mis. water, toluene":"e.g. water, toluene",
+    "ORCA: TightSCF RIJCOSX; Gaussian: scf=tight int=ultrafine":"ORCA: TightSCF RIJCOSX; Gaussian: scf=tight int=ultrafine"
+  });
+
   const nav = {
     "Dashboard":{id:"Dashboard",en:"Dashboard"},
     "Course":{id:"Perkuliahan",en:"Courses"},
@@ -335,7 +357,7 @@
     "ORCA Docker":{id:"ORCA Docker",en:"ORCA Docker"}
   };
   let lang=localStorage.getItem("simonusa-lang")||"id";
-  const originalText=new WeakMap(), originalNav=new WeakMap();
+  const originalText=new WeakMap(), originalNav=new WeakMap(), originalPlaceholder=new WeakMap();
   const titleID=document.title;
   const enText=new Map(Object.entries(pageText.en).map(([key,value])=>[key.trim(),value]));
   function translateTextNodes(){
@@ -353,6 +375,11 @@
     document.documentElement.lang=lang;
     document.querySelectorAll("[data-id][data-en]").forEach(el=>{el.innerHTML=el.dataset[lang]});
     translateTextNodes();
+    document.querySelectorAll("[placeholder]").forEach(el=>{
+      if(!originalPlaceholder.has(el)) originalPlaceholder.set(el,el.getAttribute("placeholder"));
+      const raw=originalPlaceholder.get(el), translated=enText.get(raw.trim());
+      el.setAttribute("placeholder",lang==="en"&&translated?translated:raw);
+    });
     document.querySelectorAll("nav a").forEach(a=>{
       if(!originalNav.has(a)) originalNav.set(a,a.textContent.trim());
       const key=originalNav.get(a);
