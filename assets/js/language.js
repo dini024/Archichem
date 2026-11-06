@@ -465,6 +465,53 @@
     "Bab 6 →":"Chapter 6 →","Bab 7 →":"Chapter 7 →","Bab 8 →":"Chapter 8 →","D2 →":"D2 →","D3 →":"D3 →","D4 →":"D4 →","D5 →":"D5 →","D6 →":"D6 →"
   });
 
+
+  Object.assign(pageText.en,{
+    "Planck: energi radiasi benda hitam terkuantisasi, E = hν.":"Planck: black-body radiation is quantized, E = hν.",
+    "Einstein: efek fotolistrik, cahaya datang dalam paket (foton).":"Einstein: the photoelectric effect; light arrives in packets called photons.",
+    "Bohr: orbit elektron hidrogen berenergi diskret; menjelaskan garis spektrum, tetapi ad hoc.":"Bohr: hydrogen electrons occupy discrete-energy orbits, explaining spectral lines but relying on ad hoc assumptions.",
+    "de Broglie: materi punya panjang gelombang, λ = h/p.":"de Broglie: matter has a wavelength, λ = h/p.",
+    "Heisenberg: mekanika matriks.":"Heisenberg: matrix mechanics.",
+    "Schrödinger: mekanika gelombang, kuantisasi sebagai masalah nilai eigen; terbukti setara dengan mekanika matriks. Born menafsirkan |Ψ|² sebagai rapat peluang.":"Schrödinger: wave mechanics, with quantization formulated as an eigenvalue problem; equivalent to matrix mechanics. Born interpreted |Ψ|² as a probability density.",
+    "Nobel Fisika untuk Schrödinger dan Dirac.":"The Nobel Prize in Physics was awarded to Schrödinger and Dirac.",
+    "Tafsir Born": "Born interpretation",
+    ": makin melengkung (banyak osilasi) fungsi gelombang, makin tinggi energinya (lihat bagian 2.4).":": the more rapidly the wavefunction bends or oscillates, the higher its kinetic energy (see Section 2.4).",
+    ": lingkungan partikel (inti, dinding kotak).":": the particle's environment (nuclei or box walls).",
+    ": hanya nilai tertentu yang menghasilkan ψ yang bisa dinormalkan, itulah asal kuantisasi.":": only certain values produce a normalizable ψ; this is the origin of quantization.",
+    "dan melebar":"and spreading","(dispersi), konsekuensi langsung persamaan Schrödinger (satuan atom: ħ=m=1, k₀=2).":"(dispersion), a direct consequence of the Schrödinger equation (atomic units: ħ = m = 1, k₀ = 2).",
+    "Satu elektron dalam potensial Coulomb inti (satuan atom):":"One electron in the Coulomb potential of a nucleus (atomic units):",
+    "rentang r:":"r range:","Orbital":"Orbital",
+    "Di HF tiap elektron merasakan":"In Hartree–Fock, each electron experiences the","rata-rata":"average field of the",
+    "elektron lain. Padahal elektron saling menghindar secara instan. Energi korelasi hanya ≈1% energi total, tetapi sebanding dengan energi ikatan, sehingga menentukan akurasi kimia.":"other electrons. In reality, electrons avoid one another instantaneously. Correlation energy is only about 1% of the total energy, yet it is comparable to bond energies and is crucial for chemical accuracy.",
+    "Dua elektron pada cincin. Kiri: pasangan posisi yang disampel; kanan: histogram selisih sudut Δ. Tanpa korelasi, Δ merata. Dengan korelasi, Δ≈0 (elektron berdekatan) jarang: itulah":"Two electrons on a ring. Left: sampled position pairs; right: histogram of angular separation Δ. Without correlation, Δ is uniform. With correlation, Δ ≈ 0 (nearby electrons) is rare: this is the",
+    "lubang Coulomb":"Coulomb hole",". Model mainan, bukan hasil kuantum.":". A conceptual model, not a quantum calculation.",
+    "Mode":"Mode","tanpa korelasi (seperti rata-rata HF)":"uncorrelated (as in the HF average-field picture)","berkorelasi (saling menghindar)":"correlated (electrons avoid one another)",
+    "MP2":"MP2","Configuration Interaction":"Configuration Interaction","Coupled Cluster":"Coupled cluster",
+    "Jika ukuran sistem dikali N, biaya formal naik N":"If system size is scaled by N, the formal computational cost grows as N",
+    "Polarisasi":"Polarization","Fungsi difus":"Diffuse functions",
+    "Minimal (STO-3G)":"Minimal (STO-3G)","hanya demonstrasi.":"demonstration only.",
+    "optimasi geometri awal.":"initial geometry optimization.","energi akhir dan properti.":"final energies and properties.",
+    "anion, TD-DFT eksitasi diffuse, interaksi non-kovalen.":"anions, diffuse excited states in TD-DFT, and non-covalent interactions.",
+    "Dengan Born–Oppenheimer, energi elektronik adalah fungsi posisi inti: $E(\\mathbf R)$. Titik stasioner ($\\nabla E=0$):":"Under the Born–Oppenheimer approximation, electronic energy is a function of nuclear coordinates: $E(\\mathbf R)$. Stationary points satisfy ($\\nabla E=0$):",
+    "minimum":"minimum","titik pelana orde-1":"first-order saddle point","(semua kelengkungan positif; reaktan, produk, intermediet) atau":"(all curvatures are positive; reactants, products, and intermediates), or",
+    "(satu kelengkungan negatif; keadaan transisi).":"(one negative curvature; a transition state).",
+    "Permukaan:":"Surface:","Morse (minimum)":"Morse potential (minimum)","Penghalang (titik pelana)":"Barrier (saddle point)",
+    "Imajiner = 0":"No imaginary frequencies",": minimum.":": a local minimum.","1 imajiner":"One imaginary frequency",
+    ": keadaan transisi (periksa bahwa modenya sepanjang koordinat reaksi, lalu IRC).":": a transition state (verify that the mode follows the reaction coordinate, then run an IRC calculation).",
+    "≥2 imajiner":"Two or more imaginary frequencies",": bukan struktur kimia stabil; optimasi ulang.":": not a stable chemical structure; re-optimize.",
+    "Contoh":"Examples","a₂ (bohr):":"a₂ (bohr):",
+    "D3.2 Contoh kerja":"D3.2 Worked examples","1 · Optimasi + frekuensi":"1 · Optimization + frequencies","2 · TD-DFT (struktur sudah optimasi)":"2 · TD-DFT (optimized structure)",
+    "Skrip SLURM (sesuaikan modul/partisi cluster Anda)":"SLURM script (adjust modules and partition for your cluster)",
+    "Keberhasilan:":"Successful completion:","di akhir output, ditambah":"at the end of the output, together with","pada optimasi.":"for geometry optimizations.",
+    "judul pekerjaan":"job title","baris kosong sebelum dan sesudah judul":"blank line before and after the title","baris kosong di akhir":"blank line at the end",
+    "SCF tidak konvergen":"SCF did not converge","Optimasi tidak konvergen":"Geometry optimization did not converge",
+    "Frekuensi imajiner kecil (<50 cm⁻¹)":"Small imaginary frequency (<50 cm⁻¹)","Imajiner besar":"Large imaginary frequency",
+    "Spektrum TD-DFT tidak cocok":"TD-DFT spectrum does not match experiment","Memori/CPU habis":"Out of memory / CPU resources",
+    "Reaktan (Eh)":"Reactants (Eh)","Produk (Eh)":"Products (Eh)","Tindakan":"Recommended action",
+    "kekuatan osilator":"oscillator strength","Catat titik isoterm":"Record isotherm point","Hapus titik":"Delete point",
+    "DARI ATOM KE KEPUTUSAN ILMIAH":"FROM ATOMS TO SCIENTIFIC DECISIONS"
+  });
+
   const nav = {
     "Dashboard":{id:"Dashboard",en:"Dashboard"},
     "Course":{id:"Perkuliahan",en:"Courses"},
@@ -505,6 +552,12 @@
     const b=document.getElementById("langToggle");
     if(b){b.textContent=lang==="id"?"EN":"ID";b.setAttribute("aria-label",lang==="id"?"Switch to English":"Ganti ke Bahasa Indonesia");b.title=b.getAttribute("aria-label")}
     const titleMap={
+      "SIMONUSA · Bab 1 | Computational Chemistry":"SIMONUSA · Chapter 1 | Computational Chemistry",
+      "D2 · Fungsional dan dispersi":"D2 · Functionals and dispersion",
+      "D3 · DFT dengan ORCA":"D3 · DFT with ORCA",
+      "D4 · DFT dengan Gaussian":"D4 · DFT with Gaussian",
+      "D5 · Output dan troubleshooting":"D5 · Outputs and troubleshooting",
+      "D6 · TD-DFT dan spektrum":"D6 · TD-DFT and spectra",
       "Bab 2 · Schrödinger":"Chapter 2 · Schrödinger",
       "Bab 3 · Atom hidrogen":"Chapter 3 · Hydrogen atom",
       "Bab 4 · Hartree–Fock dan SCF":"Chapter 4 · Hartree–Fock and SCF",
