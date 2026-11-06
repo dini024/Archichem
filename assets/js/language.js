@@ -1325,7 +1325,7 @@
     const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
     const replacements=[...enText.entries()].filter(([k,v])=>k.length>=3&&k!==v).sort((a,b)=>b[0].length-a[0].length);
     const protectedAncestor="script,style,pre,code,textarea,svg,math,mjx-container,.MathJax,.MathJax_Display,[contenteditable='true']";
-    const mathPattern=/((?:\\$\\$[\\s\\S]*?\\$\\$)|(?:\\\\\\[[\\s\\S]*?\\\\\\])|(?:\\\\\\([\\s\\S]*?\\\\\\))|(?:\\$[^$\\n]+\\$))/g;
+    const mathPattern=/(\$\$[\s\S]*?\$\$|\\\[[\s\S]*?\\\]|\\\([\s\S]*?\\\)|\$[^$\n]+\$)/g;
     let node;
     while((node=walker.nextNode())){
       const parent=node.parentElement;
