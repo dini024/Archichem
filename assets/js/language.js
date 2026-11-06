@@ -562,6 +562,48 @@
     "Setiap metode memiliki domain validitas. DFT/ab initio menjelaskan struktur elektronik; semiempirik mempercepat penyaringan; force field dan molecular dynamics memodelkan sistem besar dan dinamika; Monte Carlo melakukan sampling konfigurasi; coarse-grained dan metode kontinuum menjembatani skala.":"Every method has a domain of validity. DFT and ab initio methods describe electronic structure; semiempirical methods accelerate screening; force fields and molecular dynamics model large systems and dynamics; Monte Carlo samples configurations; coarse-grained and continuum methods bridge length scales."
   });
 
+
+  Object.assign(pageText.en,{
+    "Pertanyaan kimia":"Chemical question","Model atomik":"Atomic model","Metode & algoritma":"Methods & algorithms","Data komputasi":"Computational data","Validasi & keputusan":"Validation & decisions",
+    "Lingkungan & atmosfer":"Environmental & atmospheric chemistry","Spesiasi, reaksi radikal, fotolisis, adsorpsi polutan, dan jalur degradasi.":"Speciation, radical reactions, photolysis, pollutant adsorption, and degradation pathways.",
+    "Simulasi sebagai alat prediksi":"Simulation as a predictive tool",
+    "Prediksi komputasi mempersempit ruang kandidat sebelum seluruh kandidat disintesis atau diuji. Contohnya, perhitungan struktur elektronik dapat memperkirakan band gap, tingkat energi, spektrum absorpsi, energi adsorpsi, atau penghalang reaksi.":"Computational predictions narrow the candidate space before every candidate is synthesized or tested. For example, electronic-structure calculations can estimate band gaps, energy levels, absorption spectra, adsorption energies, and reaction barriers.",
+    "Prediksi spektrum UV–Vis":"Predicting UV–Vis spectra","Ilustrasi dispersi pita pada jalur k.":"Illustration of band dispersion along a k-path.",
+    "Energi adsorpsi pada permukaan":"Adsorption energy on a surface","Perbandingan situs adsorpsi sebagai panduan pemilihan situs aktif.":"Comparing adsorption sites to guide the selection of active sites.",
+    "Profil energi reaksi":"Reaction-energy profile","Energi relatif dan keadaan transisi pada koordinat reaksi.":"Relative energies and transition states along a reaction coordinate.",
+    "Simulasi melengkapi eksperimen":"Simulation complements experiments",
+    "HOMO / LUMO & distribusi muatan":"HOMO / LUMO & charge distribution","Skema isosurface orbital dua fase.":"Schematic orbital isosurfaces with two phases.",
+    "Charge-density difference":"Charge-density difference","Akumulasi dan deplesi muatan pada antarmuka.":"Charge accumulation and depletion at an interface.",
+    "Densitas keadaan (DOS)":"Density of states (DOS)","Kontribusi keadaan elektronik pada energi berbeda.":"Electronic-state contributions at different energies.",
+    "Dinamika molekuler":"Molecular dynamics","Perubahan posisi atom/energi sepanjang waktu.":"Changes in atomic positions and energy over time.",
+    "Eksperimen":"Experiment","Data komputasi pendamping":"Complementary computational data","Pertanyaan yang dibantu":"Question addressed",
+    "UV–Vis / PL":"UV–Vis / PL","TD-DFT, oscillator strength, karakter transisi":"TD-DFT, oscillator strengths, and transition character","Transisi mana membentuk pita absorpsi/emisi?":"Which transitions contribute to the absorption/emission bands?",
+    "FTIR / Raman":"FTIR / Raman","Frekuensi normal dan intensitas vibrasi":"Normal-mode frequencies and vibrational intensities","Mode vibrasi mana terkait gugus fungsi?":"Which vibrational modes are associated with each functional group?",
+    "XPS / UPS":"XPS / UPS","DOS/PDOS, work function, struktur elektronik":"DOS/PDOS, work function, and electronic structure","Bagaimana keadaan elektronik dan alignment energi berubah?":"How do the electronic states and energy-level alignment change?",
+    "XRD":"XRD","Parameter kisi dan pola difraksi simulasi":"Lattice parameters and simulated diffraction patterns","Fase/struktur mana konsisten dengan pola?":"Which phase or structure is consistent with the pattern?",
+    "AFM / KPFM / TEM":"AFM / KPFM / TEM","Model permukaan, morfologi atomik, potensial elektrostatik":"Surface models, atomic morphology, and electrostatic potential","Bagaimana struktur permukaan dan distribusi potensial berkontribusi?":"How do surface structure and potential distribution contribute?",
+    "CV / EIS":"CV / EIS","Energi redoks, koordinasi ion, difusi dan energi antarmuka":"Redox energies, ion coordination, diffusion, and interfacial energies","Mekanisme apa yang mungkin mengontrol respons elektrokimia?":"Which mechanisms may control the electrochemical response?",
+    "Studi kasus: penyaringan kandidat OLED":"Case study: screening OLED candidates",
+    "Gómez-Bombarelli dan rekan menunjukkan bagaimana penyaringan komputasi pada ruang molekul besar dapat membantu memilih kandidat OLED untuk sintesis dan pengujian. Studi ini menjadi contoh hubungan desain molekul, prediksi sifat optoelektronik, dan validasi perangkat. Lihat referensi primer di bawah untuk detail dan konteks angka.":"Gómez-Bombarelli and colleagues demonstrated how computational screening across a large molecular space can help select OLED candidates for synthesis and testing. This study illustrates the connection between molecular design, optoelectronic-property prediction, and device validation. Consult the primary reference below for details and numerical context.",
+    "Di HF tiap elektron merasakan":"In Hartree–Fock, each electron experiences the","rata-rata":"average field of the","elektron lain. Padahal elektron saling menghindar secara instan. Energi korelasi hanya ≈1% energi total, tetapi sebanding dengan energi ikatan, sehingga menentukan akurasi kimia.":"other electrons. In reality, electrons avoid one another instantaneously. Correlation energy is only about 1% of the total energy, yet is comparable to bond energies and crucial for chemical accuracy.",
+    "tanpa korelasi (seperti rata-rata HF)":"uncorrelated (as in the HF average-field picture)","berkorelasi (saling menghindar)":"correlated (electrons avoid one another)",
+    "Marker bergerak memperlihatkan biaya relatif tiap metode.":"The moving marker compares the relative computational cost of each method.",
+    "korelasi lewat fungsional":"correlation described by a functional","buruk untuk sistem sangat terdelokalisasi":"performs poorly for strongly delocalized systems","acuan untuk molekul kecil":"a benchmark for small molecules",
+    "n Gaussian:":"Number of Gaussian functions:","skala log":"logarithmic scale","λ (pencampuran p):":"λ (p-orbital mixing):",
+    "(d pada C, p pada H): mencampur orbital berkarakter lebih tinggi agar awan bisa berubah bentuk dalam ikatan. Geser λ dan lihat kerapatan s tergeser (sumbu z).":"(d functions on C, p functions on H): higher-angular-momentum functions allow the electron cloud to deform during bonding. Adjust λ and observe the s-density shift along the z-axis.",
+    "(aug-, +): eksponen kecil, awan menjangkau jauh. Wajib untuk anion, keadaan tereksitasi Rydberg, dan interaksi lemah.":"(aug-, +): small exponents allow the electron cloud to extend farther from the nuclei. Important for anions, Rydberg excited states, and weak interactions.",
+    "B (ketidaksempurnaan):":"B (residual error):","Split-valence + polarisasi (6-31G(d), def2-SVP)":"Split-valence + polarization (6-31G(d), def2-SVP)",
+    "Triple-ζ (def2-TZVP, cc-pVTZ)":"Triple-zeta (def2-TZVP, cc-pVTZ)","aug-": "aug-",
+    ": anion, TD-DFT eksitasi diffuse, interaksi non-kovalen.":": anions, diffuse TD-DFT excited states, and non-covalent interactions.",
+    "T target (reduksi):":"Target temperature (reduced units):","Reset":"Reset","J:":"J:","kT:":"kT:",
+    "Dengan Born–Oppenheimer, energi elektronik adalah fungsi posisi inti: $E(\\mathbf R)$. Titik stasioner ($\\nabla E=0$):":"Under the Born–Oppenheimer approximation, electronic energy is a function of nuclear coordinates: $E(\\mathbf R)$. Stationary points satisfy ($\\nabla E=0$):",
+    "(semua kelengkungan positif; reaktan, produk, intermediet) atau":"(all curvatures are positive; reactants, products, and intermediates), or",
+    "Morse (minimum)":"Morse potential (minimum)","Penghalang (titik pelana)":"Barrier (saddle point)","posisi x:":"position x:","Optimasi":"Optimization",
+    "k (N/m):":"k (N/m):","μ (amu):":"μ (amu):",
+    "$G=E_{elec}+ZPE+(H_{corr}\\text{ termal})-TS$ menghasilkan energi bebas reaksi dan barrier.":"$G=E_{elec}+ZPE+(H_{corr}\\text{ thermal})-TS$ gives reaction free energies and barriers.",
+    "· Selanjutnya: Course 2 (DFT)":"· Next: Course 2 (DFT)"
+  });
+
   const nav = {
     "Dashboard":{id:"Dashboard",en:"Dashboard"},
     "Course":{id:"Perkuliahan",en:"Courses"},
