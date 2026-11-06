@@ -1307,6 +1307,8 @@
   "basis lengkap": "complete basis set"
 });
 
+  pageText.en["state"]="state";
+
   const nav = {
     "Dashboard":{id:"Dashboard",en:"Dashboard"},
     "Course":{id:"Perkuliahan",en:"Courses"},
