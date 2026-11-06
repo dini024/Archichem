@@ -640,6 +640,41 @@
     "untuk":"for","Daftar bab":"Chapter list"
   });
 
+
+  Object.assign(pageText.en,{
+    "Sama seperti HF, potensial efektif bergantung pada $\\rho$ yang berasal dari orbital, sehingga diselesaikan dengan":"As in HF, the effective potential depends on $\\rho$ obtained from the orbitals, so the equations are solved self-consistently using",
+    ". Bedanya: HF memakai pertukaran eksak dan tanpa korelasi; KS memakai $E_{xc}$ hampiran yang memuat":". The difference is that HF uses exact exchange without correlation, whereas KS uses an approximate $E_{xc}$ that includes",
+    "Seluruh kualitas hasil ditentukan oleh $E_{xc}$ → bab D2.":"The quality of the results is determined by $E_{xc}$ → Chapter D2.",
+    "untuk $\\rho$ uji yang valid, $E[\\rho]\\ge E_0$ (prinsip variasional): $\\rho_0$ dicari dengan meminimalkan $E[\\rho]$.":"For any valid trial density $\\rho$, $E[\\rho]\\ge E_0$ (the variational principle): the ground-state density $\\rho_0$ is found by minimizing $E[\\rho]$.",
+    "$\\rho_0(\\mathbf r)$ keadaan dasar menentukan secara unik potensial eksternal $v_{ext}$ (sampai konstanta), sehingga seluruh sifat sistem: $E_0=E[\\rho_0]$.":"The ground-state density $\\rho_0(\\mathbf r)$ uniquely determines the external potential $v_{ext}$ (up to a constant), and therefore all properties of the system: $E_0=E[\\rho_0]$.",
+    "untuk":"for",
+    "μ:":"μ:","a₁:":"a₁:","a₂ (bohr):":"a₂ (bohr):",
+    "SVWN":"SVWN","PBE, BP86, BLYP":"PBE, BP86, BLYP","TPSS, M06-L, r²SCAN":"TPSS, M06-L, r²SCAN",
+    "B3LYP, PBE0, M06-2X":"B3LYP, PBE0, M06-2X","CAM-B3LYP, ωB97X-D3":"CAM-B3LYP, ωB97X-D3","B2PLYP, DSD-PBEP86":"B2PLYP, DSD-PBEP86",
+    "HF exchange naik dengan jarak":"HF exchange increases with distance",
+    "D3BJ":"D3BJ","EmpiricalDispersion=GD3BJ":"EmpiricalDispersion=GD3BJ",
+    "atau":"or","(tambahkan":"(add","untuk optimasi keadaan tereksitasi)":"for excited-state optimization)",
+    "Normal termination of Gaussian":"Normal termination of Gaussian",
+    "; optimasi:":"; for optimization:","dan":"and","berarti imajiner.":"indicates an imaginary frequency.",
+    "tidak ada":"no","SCF konvergen":"SCF converged","SCF NOT CONVERGED":"SCF NOT CONVERGED",
+    "Convergence failure":"Convergence failure","tanpa nilai negatif":"contains no negative values",
+    "mendekati S(S+1)":"close to S(S+1)","titik pelana":"saddle point",
+    "basis besar, nproc/maxcore tidak sesuai":"large basis set or unsuitable nproc/maxcore settings",
+    "nprocs × maxcore":"nprocs × maxcore","< memori node":"< node memory",
+    "untuk tabel λ, E, f, ε, dan transisi.":"for a table of λ, E, f, ε, and transition assignments.",
+    "Results Analyzer":"Results Analyzer","pada optimasi.":"for geometry optimizations.",
+    "ORCA TERMINATED NORMALLY":"ORCA TERMINATED NORMALLY","Normal termination":"Normal termination",
+    "Optimization completed":"Optimization completed","Stationary point found":"Stationary point found",
+    "VIBRATIONAL FREQUENCIES":"VIBRATIONAL FREQUENCIES","Frequencies --":"Frequencies --",
+    "ABSORPTION SPECTRUM":"ABSORPTION SPECTRUM","Excited State":"Excited State",
+    "S**2":"S**2","⟨S²⟩ ≈ S(S+1)":"⟨S²⟩ ≈ S(S+1)",
+    "T (K):":"T (K):","Produk (Eh)":"Products (Eh)",
+    "SlowConv":"SlowConv","scf=xqc":"scf=xqc","int=ultrafine":"int=ultrafine",
+    "g16 < job.com > job.log":"g16 < job.com > job.log","g16 job.com":"g16 job.com",
+    "Results Analyzer":"Results Analyzer","Download":"Download",
+    "Results":"Results","Dashboard":"Dashboard"
+  });
+
   const nav = {
     "Dashboard":{id:"Dashboard",en:"Dashboard"},
     "Course":{id:"Perkuliahan",en:"Courses"},
