@@ -15,12 +15,12 @@
 <p><a href="ch02-schrodinger.html">Bab 2: Persamaan Schrödinger →</a></p>
 <script>
 function draw(id,series,opts){plot(id,series,opts)}
-const x=lin(250,700,180);draw('uv',[{n:'Spektrum eksperimen (ilustrasi)',x,y:x.map(v=>Math.exp((-((v-390)/36)**2))+.55*Math.exp((-((v-540)/58)**2)))},{n:'TD-DFT broadened',x,y:x.map(v=>.92*Math.exp((-((v-410)/38)**2))+.5*Math.exp((-((v-520)/54)**2))),c:'#ff8b9c'}],{xl:'Wavelength (nm)',yl:'Absorbance',y0:0,y1:1.2});
+const x=lin(250,700,180);draw('uv',[{n:'Spektrum eksperimen (ilustrasi)',x,y:x.map(v=>Math.exp(-(((v-390)/36)**2))+.55*Math.exp(-(((v-540)/58)**2)))},{n:'TD-DFT broadened',x,y:x.map(v=>.92*Math.exp(-(((v-410)/38)**2))+.5*Math.exp(-(((v-520)/54)**2))),c:'#ff8b9c'}],{xl:'Wavelength (nm)',yl:'Absorbance',y0:0,y1:1.2});
 const k=lin(0,1,120);draw('band',[{n:'Valence band',x:k,y:k.map(v=>-2.8+1.1*Math.cos(v*Math.PI))},{n:'Conduction band',x:k,y:k.map(v=>1.3+.8*Math.cos(v*Math.PI))}],{xl:'k-path',yl:'Energy (eV)',y0:-4,y1:3});
 draw('ads',[{n:'Top',x:[1,2,3,4],y:[-.45,-.4,-.43,-.41]},{n:'Bridge',x:[1,2,3,4],y:[-.72,-.69,-.74,-.7],c:'#73e3b2'},{n:'Hollow',x:[1,2,3,4],y:[-.58,-.62,-.6,-.61],c:'#b69cff'}],{xl:'Surface model',yl:'Eads (eV)',y0:-.9,y1:-.2});
 draw('pes',[{n:'Reaction coordinate',x:[0,1,2,3,4,5],y:[0,.45,1.2,.55,-.35,-.55],c:'#ffc978'}],{xl:'Reaction coordinate',yl:'Relative energy',y0:-.8,y1:1.5});
 const ox=lin(-1,1,100);plot('orb',[{n:'HOMO + phase',x:ox,y:ox.map(v=>Math.sin(2*Math.PI*v)*Math.exp(-v*v*2))},{n:'LUMO − phase',x:ox,y:ox.map(v=>Math.cos(2*Math.PI*v)*Math.exp(-v*v*2)),c:'#ff8b9c'}],{xl:'Molecular axis',yl:'Orbital amplitude',y0:-1,y1:1});
-const cx=lin(0,1,80);plot('cdd',[{n:'Charge accumulation',x:cx,y:cx.map(v=>.4*Math.exp((-((v-.45)/.12)**2)))},{n:'Charge depletion',x:cx,y:cx.map(v=>-.35*Math.exp((-((v-.68)/.1)**2))),c:'#ff8b9c'}],{xl:'Interface coordinate',yl:'Δρ (illustrative)',y0:-.5,y1:.5});
-const ex=lin(-8,5,150);plot('dos',[{n:'Total DOS',x:ex,y:ex.map(v=>Math.exp((-((v+3)/.7)**2))+.7*Math.exp((-((v-1)/1.1)**2)))},{n:'Projected DOS',x:ex,y:ex.map(v=>.6*Math.exp((-((v+3)/.7)**2))),c:'#b69cff'}],{xl:'Energy (eV)',yl:'DOS',y0:0,y1:1.3});
+const cx=lin(0,1,80);plot('cdd',[{n:'Charge accumulation',x:cx,y:cx.map(v=>.4*Math.exp(-(((v-.45)/.12)**2)))},{n:'Charge depletion',x:cx,y:cx.map(v=>-.35*Math.exp(-(((v-.68)/.1)**2))),c:'#ff8b9c'}],{xl:'Interface coordinate',yl:'Δρ (illustrative)',y0:-.5,y1:.5});
+const ex=lin(-8,5,150);plot('dos',[{n:'Total DOS',x:ex,y:ex.map(v=>Math.exp(-(((v+3)/.7)**2))+.7*Math.exp(-(((v-1)/1.1)**2)))},{n:'Projected DOS',x:ex,y:ex.map(v=>.6*Math.exp(-(((v+3)/.7)**2))),c:'#b69cff'}],{xl:'Energy (eV)',yl:'DOS',y0:0,y1:1.3});
 const tm=lin(0,20,100);plot('md',[{n:'Potential energy',x:tm,y:tm.map(v=>-12+.6*Math.sin(v*1.7)+.15*Math.sin(v*5))},{n:'Temperature (scaled)',x:tm,y:tm.map(v=>.7+.08*Math.sin(v*1.2)),c:'#ffc978'}],{xl:'Time (ps)',yl:'Relative value'});
 </script></body></html>
