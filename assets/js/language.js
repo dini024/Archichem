@@ -311,6 +311,7 @@
   };
   let lang=localStorage.getItem("simonusa-lang")||"id";
   const originalText=new WeakMap(), originalNav=new WeakMap();
+  const titleID=document.title;
   const enText=new Map(Object.entries(pageText.en).map(([key,value])=>[key.trim(),value]));
   function translateTextNodes(){
     const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
@@ -334,7 +335,7 @@
     });
     const b=document.getElementById("langToggle");
     if(b){b.textContent=lang==="id"?"EN":"ID";b.setAttribute("aria-label",lang==="id"?"Switch to English":"Ganti ke Bahasa Indonesia");b.title=b.getAttribute("aria-label")}
-    document.title=lang==="en"?(document.title.replace("Apa itu Computational Chemistry?","What Is Computational Chemistry?").replace("Dasar Teori DFT","DFT Foundations").replace("Fungsional, Basis, dan Koreksi Dispersi","Functionals, Basis Sets, and Dispersion Corrections").replace("Molecular Builder | CompChem Lab","Molecular Builder | SIMONUSA")):document.title;
+    document.title=lang==="en"?(titleID.replace("Apa itu Computational Chemistry?","What Is Computational Chemistry?").replace("Dasar Teori DFT","DFT Foundations").replace("Fungsional, Basis, dan Koreksi Dispersi","Functionals, Basis Sets, and Dispersion Corrections").replace("Molecular Builder | CompChem Lab","Molecular Builder | SIMONUSA")):titleID;
     if(window.MathJax?.typesetPromise) window.MathJax.typesetPromise();
     document.dispatchEvent(new CustomEvent("simonusa:languagechange",{detail:{language:lang}}));
   }
