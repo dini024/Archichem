@@ -604,6 +604,42 @@
     "· Selanjutnya: Course 2 (DFT)":"· Next: Course 2 (DFT)"
   });
 
+
+  Object.assign(pageText.en,{
+    "Fungsi gelombang $\\Psi$ punya $3N$ dimensi (Bab 2–4), sedangkan kerapatan $\\rho(\\mathbf r)=N\\int|\\Psi|^2\\,d\\mathbf r_2\\cdots d\\mathbf r_N$ selalu 3 dimensi, dengan $\\int\\rho\\,d\\mathbf r=N$.":"The wavefunction $\\Psi$ has $3N$ dimensions (Chapters 2–4), whereas the density $\\rho(\\mathbf r)=N\\int|\\Psi|^2\\,d\\mathbf r_2\\cdots d\\mathbf r_N$ is always three-dimensional, with $\\int\\rho\\,d\\mathbf r=N$.",
+    "$\\rho_0(\\mathbf r)$ keadaan dasar menentukan secara unik potensial eksternal $v_{ext}$ (sampai konstanta), sehingga seluruh sifat sistem: $E_0=E[\\rho_0]$.":"The ground-state density $\\rho_0(\\mathbf r)$ uniquely determines the external potential $v_{ext}$ (up to a constant), and therefore all properties of the system: $E_0=E[\\rho_0]$.",
+    "untuk $\\rho$ uji yang valid, $E[\\rho]\\ge E_0$ (prinsip variasional): $\\rho_0$ dicari dengan meminimalkan $E[\\rho]$.":"For any valid trial density $\\rho$, $E[\\rho]\\ge E_0$ (the variational principle): the ground-state density $\\rho_0$ is found by minimizing $E[\\rho]$.",
+    "Sama seperti HF, potensial efektif bergantung pada $\\rho$ yang berasal dari orbital, sehingga diselesaikan dengan":"As in HF, the effective potential depends on $\\rho$, which is obtained from the orbitals; the equations are therefore solved self-consistently using",
+    ". Bedanya: HF memakai pertukaran eksak dan tanpa korelasi; KS memakai $E_{xc}$ hampiran yang memuat":". The difference is that HF uses exact exchange without correlation, whereas KS uses an approximate $E_{xc}$ that includes",
+    "Seluruh kualitas hasil ditentukan oleh $E_{xc}$ → bab D2.":"The quality of the results is determined by $E_{xc}$ → Chapter D2.",
+    "TD-DFT memberi energi eksitasi sebagai pole respons linear kerapatan (persamaan Casida):":"TD-DFT obtains excitation energies as poles of the linear density response (Casida equation):",
+    "Pendekatan Tamm–Dancoff (TDA) menetapkan $\\mathbf B=0$. Intensitas ditentukan":"The Tamm–Dancoff approximation (TDA) sets $\\mathbf B=0$. The intensity is determined by",
+    "Dalam literatur DSSC komputasi sering dipakai $\\mathrm{LHE}=1-10^{-f}$ untuk memperkirakan efisiensi penangkapan cahaya satu transisi.":"In computational DSSC studies, $\\mathrm{LHE}=1-10^{-f}$ is often used to estimate the light-harvesting efficiency of an individual transition.",
+    "Eksperimen memuat lebar vibronik; bandingkan":"Experimental spectra include vibronic broadening; compare",
+    "pola":"the overall pattern","dan λ":"and λ","max": "max",", bukan hanya angka tunggal.":", rather than relying on a single peak value.",
+    "Unggah output TD-DFT ke":"Upload the TD-DFT output to",
+    "untuk tabel λ, E, f, ε, dan transisi.":"to obtain a table of λ, E, f, ε, and transition assignments.",
+    "ORCA & Gaussian Input Builder":"ORCA & Gaussian Input Builder","Parameter":"Parameters","Koordinat XYZ":"XYZ coordinates",
+    "memuat RDKit.js…":"loading RDKit.js…","Database":"Database","Local library (24 molekul)":"Local library (24 molecules)","ZINC (tautan)":"ZINC (link)",
+    "Modul pembelajaran bilingual untuk menghubungkan teori kimia, pemodelan molekul, simulasi, dan eksperimen.":"A bilingual learning module connecting chemical theory, molecular modeling, simulation, and experiments.",
+    "Explore the atomic world. Understand materials. Predict chemical behavior. Design better experiments.":"Explore the atomic world. Understand materials. Predict chemical behavior. Design better experiments.",
+    "Results Analyzer":"Results Analyzer","ORCA Docker Workbench":"ORCA Docker Workbench",
+    "Ringkasan Interaktif DFT (versi cepat)":"Interactive DFT Summary (quick version)",
+    "Kursus interaktif computational chemistry dan Density Functional Theory (DFT): teori → visual → analisis hasil ORCA/Gaussian.":"An interactive course in computational chemistry and Density Functional Theory (DFT): theory → visualization → ORCA/Gaussian results analysis.",
+    "1 Mengapa":"1 Why","2 Schrödinger":"2 Schrödinger","3 Dimensi":"3 Dimensions","4 DFT":"4 DFT","5 Fungsional":"5 Functionals","6 Basis set":"6 Basis sets","7 SCF":"7 SCF","8 Optimasi":"8 Optimization","9 Properti":"9 Properties","10 Workflow":"10 Workflow","11 Kuis":"11 Quiz","12 Pustaka":"12 References",
+    "1 · Mengapa simulasi komputasi penting sekarang?":"1 · Why are computational simulations important today?",
+    "ukur / amati":"measure / observe","Komputasi":"Computation","model / prediksi":"model / predict","Wawasan tervalidasi":"validated insight","mekanisme · sifat · desain":"mechanism · properties · design",
+    "Penyaringan sebelum sintesis:":"Screening before synthesis:",
+    "kandidat dye, bahan penyimpan H₂, atau molekul fotokromik disaring dengan DFT sebelum dibuat di laboratorium.":"dye candidates, hydrogen-storage materials, or photochromic molecules can be screened with DFT before laboratory synthesis.",
+    "Hasil bisa diuji kehandalannya:":"Results can be benchmarked:",
+    "dataset Open Molecules 2025 (OMol25) berisi lebih dari 100 juta perhitungan DFT pada level ωB97M-V/def2-TZVPD, dikerjakan dengan ORCA 6.0.0, untuk melatih machine-learning interatomic potentials sebagai pengganti DFT yang jauh lebih cepat. Data DFT kini menjadi bahan bakar model AI untuk kimia.":"The Open Molecules 2025 (OMol25) dataset contains more than 100 million DFT calculations at the ωB97M-V/def2-TZVPD level, performed with ORCA 6.0.0, to train machine-learning interatomic potentials as much faster surrogates for DFT. DFT data now fuel AI models for chemistry.",
+    "Pengakuan:":"Recognition:","Model bukan pengganti eksperimen: ia menghasilkan hipotesis yang harus divalidasi, dengan metode dan ketidakpastian yang dilaporkan.":"A model does not replace experiments: it generates hypotheses that must be validated, with methods and uncertainties reported.",
+    "2 · Persamaan Schrödinger":"2 · The Schrödinger equation","3 · Mengapa gagal untuk banyak elektron?":"3 · Why does it fail for many electrons?",
+    "atom hidrogen: satu-satunya kasus yang bisa diselesaikan eksak":"the hydrogen atom: the only atom with an exact analytical solution",
+    "dinding eksponensial":"exponential wall",
+    "untuk":"for","Daftar bab":"Chapter list"
+  });
+
   const nav = {
     "Dashboard":{id:"Dashboard",en:"Dashboard"},
     "Course":{id:"Perkuliahan",en:"Courses"},
