@@ -1309,6 +1309,8 @@
 
   pageText.en["state"]="state";
 
+  Object.assign(pageText.en,{"9 · Dari orbital ke properti":"9 · From orbitals to properties"});
+
   const nav = {
     "Dashboard":{id:"Dashboard",en:"Dashboard"},
     "Course":{id:"Perkuliahan",en:"Courses"},
