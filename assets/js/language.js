@@ -675,6 +675,49 @@
     "Results":"Results","Dashboard":"Dashboard"
   });
 
+
+  Object.assign(pageText.en,{
+    "Computational Results Analyzer":"Computational Results Analyzer","Unggah":"Upload","Metode":"Methods","Galeri 3D":"3D gallery",
+    "Struktur":"Structure","Elektrokimia":"Electrochemistry","Optik":"Optical properties","Fotovoltaik":"Photovoltaics",
+    "0 · Unggah data (multi-molekul)":"0 · Upload data (multiple molecules)","Isi":"Content","Nama molekul":"Molecule name",
+    "lalu unggah berkasnya; semua berkas dengan nama yang sama digabung ke satu molekul. Kosongkan nama untuk memakai nama berkas. Semua pemrosesan terjadi di browser Anda.":"then upload the files; files with the same name are grouped into one molecule. Leave the name blank to use the filename. All processing takes place in your browser.",
+    "Output ORCA/Gaussian (.out/.log) atau 2 kolom λ,f (.txt)":"ORCA/Gaussian output (.out/.log) or two-column λ,f data (.txt)",
+    "Struktur .xyz (opsional)":"Structure .xyz (optional)","HOMO (.cube atau gambar)":"HOMO (.cube or image)","LUMO (.cube atau gambar)":"LUMO (.cube or image)",
+    "UV-Vis eksperimen (λ, A)":"Experimental UV–Vis (λ, A)","J-V eksperimen (V, J)":"Experimental J–V (V, J)",
+    "Orbital: ubah gbw → molden/cube dengan":"Orbitals: convert gbw → molden/cube using","; Gaussian:":"; for Gaussian:",
+    "(lihat Course D3–D4). Berkas molden belum dibaca langsung.":"(see Courses D3–D4). Molden files are not read directly yet.",
+    "1 · Rincian metode (pembuat paragraf)":"1 · Method details (paragraph generator)","TD-DFT: fungsional":"TD-DFT functional",
+    "state":"states","2 · Galeri struktur 3D":"2 · 3D structure gallery","3 · Properti struktural":"3 · Structural properties",
+    "Definisikan ukuran yang dilaporkan (indeks atom 1-berbasis, sama untuk semua molekul):":"Define the reported measurements (1-based atom indices, consistent across all molecules):",
+    "Unduh CSV":"Download CSV","Planaritas = RMSD atom berat terhadap bidang terbaik (<0,05 Å planar, <0,25 Å semi-planar; ambang heuristik). Jarak π–π stacking membutuhkan dimer dan tidak dihitung dari satu molekul.":"Planarity is the RMSD of heavy atoms from the best-fit plane (<0.05 Å planar, <0.25 Å semi-planar; heuristic thresholds). π–π stacking distances require a dimer and cannot be calculated from a single molecule.",
+    "4 · Frekuensi vibrasi":"4 · Vibrational frequencies","5 · Sifat elektrokimia dan orbital frontier":"5 · Electrochemical properties and frontier orbitals",
+    "Molekul untuk orbital 3D:":"Molecule for 3D orbitals:","isoval":"isovalue","Diagram tingkat energi":"Energy-level diagram",
+    "(TiO₂)":"(TiO₂)","eV, E":"eV, E","redox":"redox","eV (nilai umum DSSC, sesuaikan dengan referensi Anda)":"eV (typical DSSC values; adjust to your reference)",
+    "positif menunjukkan gaya dorong injeksi elektron ke TiO₂ dan regenerasi dye (aturan praktis ≈0,2–0,3 eV).":"positive values indicate a driving force for electron injection into TiO₂ and dye regeneration (a practical guideline is approximately 0.2–0.3 eV).",
+    "6 · Sifat optik: spektrum, LHE, dan tabel TD-DFT":"6 · Optical properties: spectra, LHE, and TD-DFT table",
+    "σ pita (eV)":"Band width σ (eV)","normalisasi":"normalization","Spektrum simulasi":"Simulated spectrum",
+    "Simulasi vs eksperimen (molekul terpilih di bagian 5)":"Simulation vs experiment (molecule selected in Section 5)",
+    "ORCA Docker Workbench":"ORCA Docker Workbench","1. Kirim job":"1. Submit a job","Backend":"Backend",
+    "Docker lokal (MacBook)":"Local Docker (MacBook)","SLURM BRIN":"BRIN SLURM","File input utama":"Main input file",
+    "File (input .inp + struktur .xyz/.pdb/.sdf):":"Files (input .inp + structure .xyz/.pdb/.sdf):","Kirim":"Submit",
+    "Workbench tidak mengubah input Anda; tulis input ORCA (mis. job docking) sendiri atau buat di Input Builder. Koneksi di Dashboard.":"The workbench does not modify your input; write the ORCA input (e.g. a docking job) yourself or create it in Input Builder. Configure the connection on the Dashboard.",
+    "2. Job":"2. Jobs","Refresh":"Refresh","3. Hasil":"3. Results","Berkas job:":"Job files:","atau output/pose lokal (tanpa backend):":"or local output/poses (without a backend):","Frame/pose:":"Frame/pose:",
+    "Ringkasan Interaktif DFT (versi cepat)":"Interactive DFT Summary (quick version)",
+    "Lejaeghere dkk. (":"Lejaeghere et al. (","2016) membandingkan 15 kode DFT padatan dengan 40 potensial/basis; kode dan pseudopotensial modern sepakat dengan selisih sebanding perbedaan antar eksperimen presisi tinggi.":"2016) compared 15 solid-state DFT codes using 40 potentials/basis sets; modern codes and pseudopotentials agreed within differences comparable to those between high-precision experiments.",
+    "Skala dan AI (2025):":"Scale and AI (2025):","Nobel Kimia 1998 (Kohn dan Pople) dan 2013 (Karplus, Levitt, Warshel).":"Nobel Prizes in Chemistry were awarded in 1998 (Kohn and Pople) and 2013 (Karplus, Levitt, and Warshel).",
+    "Model bukan pengganti eksperimen: ia menghasilkan hipotesis yang harus divalidasi, dengan metode dan ketidakpastian yang dilaporkan.":"A model does not replace experiments: it generates hypotheses that must be validated, with methods and uncertainties reported.",
+    "3 · Mengapa gagal untuk banyak elektron?":"3 · Why does it fail for many electrons?",
+    "Jumlah elektron N:":"Number of electrons N:","Solusinya:":"The solution:","metode berbasis ρ(r)":"methods based on ρ(r)",
+    "yang selalu 3 dimensi, berapa pun N. Perkiraan jumlah atom di alam semesta teramati (~10⁸⁰) sudah terlampaui pada N≈27.":"which is always three-dimensional, regardless of N. The estimated number of atoms in the observable universe (~10⁸⁰) is already exceeded when N ≈ 27.",
+    "4 · Ide DFT: dari Ψ ke ρ(r)":"4 · The idea of DFT: from Ψ to ρ(r)",
+    "Hohenberg–Kohn (1964).":"Hohenberg–Kohn (1964).","Kerapatan elektron keadaan dasar ρ(r) menentukan secara unik potensial eksternal dan seluruh sifat sistem: E = E[ρ].":"The ground-state electron density ρ(r) uniquely determines the external potential and all properties of the system: E = E[ρ].",
+    "Kohn–Sham (1965).":"Kohn–Sham (1965).","Ganti sistem berinteraksi dengan sistem elektron tak berinteraksi yang ρ-nya sama:":"Replace the interacting system with a non-interacting electron system that has the same ρ:",
+    "Semua kerumitan kuantum (pertukaran + korelasi + koreksi energi kinetik) dikemas dalam E":"All quantum complexity (exchange + correlation + kinetic-energy correction) is contained in E",
+    "tidak diketahui eksak":"not known exactly","dan harus dihampiri. Karena itu kualitas DFT ditentukan oleh pilihan fungsional.":"and must be approximated. Therefore, DFT accuracy depends on the chosen functional.",
+    "Tangga Jacob: naik = biasanya lebih akurat dan lebih mahal (skala formal GGA ~N³, hibrida ~N⁴, hibrida ganda ~N⁵; RI/COSX menurunkan biaya praktis).":"Jacob's ladder: higher rungs are generally more accurate and more expensive (formal scaling: GGA ~N³, hybrids ~N⁴, double hybrids ~N⁵; RI/COSX reduces practical cost).",
+    "5 · Apa arti \"GGA\"?":"5 · What does \"GGA\" mean?","faktor peningkatan pertukaran F":"exchange enhancement factor F"
+  });
+
   const nav = {
     "Dashboard":{id:"Dashboard",en:"Dashboard"},
     "Course":{id:"Perkuliahan",en:"Courses"},
