@@ -311,13 +311,14 @@
   };
   let lang=localStorage.getItem("simonusa-lang")||"id";
   const originalText=new WeakMap(), originalNav=new WeakMap();
+  const enText=new Map(Object.entries(pageText.en).map(([key,value])=>[key.trim(),value]));
   function translateTextNodes(){
     const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
     let node;
     while((node=walker.nextNode())){
       if(!originalText.has(node)) originalText.set(node,node.nodeValue);
       const raw=originalText.get(node), key=raw.trim();
-      const translated=pageText.en[key];
+      const translated=enText.get(key);
       if(lang==="en" && translated!==undefined) node.nodeValue=raw.replace(key,translated);
       else node.nodeValue=raw;
     }
