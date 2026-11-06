@@ -1265,6 +1265,48 @@
   "Reset animation": "Reset animation"
 });
 
+  Object.assign(pageText.en,{
+  "kinetik": "kinetic energy",
+  "tarikan inti": "nuclear attraction",
+  "energi potensial": "potential energy",
+  "energi (nilai eigen)": "energy eigenvalue",
+  "kelengkungan": "curvature",
+  "keadaan eigen": "eigenstate",
+  "berputar fase": "changes by a phase factor",
+  "dengan": "with",
+  "energi dan ukuran": "energy and size",
+  "bentuk": "shape",
+  "orientasi": "orientation",
+  "elektron terlokalisasi": "localized electrons",
+  "simetris": "symmetric",
+  "keadaan dasar": "ground state",
+  "potensial eksternal": "external potential",
+  "sampai konstanta": "up to a constant",
+  "prinsip variasional": "variational principle",
+  "kerapatan": "density",
+  "dimensi": "dimensions",
+  "selalu": "always",
+  "dicari dengan meminimalkan": "is obtained by minimizing",
+  "energi bebas reaksi": "reaction free energies",
+  "menghasilkan": "gives",
+  "titik stasioner": "stationary points",
+  "posisi inti": "nuclear coordinates",
+  "Metode untuk adsorpsi gas pada pori": "Method for gas adsorption in pores",
+  "energi ikat": "binding energy",
+  "interaksi antar tetangga": "nearest-neighbor interaction",
+  "Naikkan": "Increase",
+  "muncul kondensasi": "condensation can occur",
+  "Catat titik isoterm": "Record isotherm point",
+  "Hapus titik": "Remove point",
+  "SCF sulit konvergen": "SCF convergence is difficult",
+  "energi elektronik": "electronic energy",
+  "fungsi gelombang": "wavefunction",
+  "gugus fungsi": "functional group",
+  "spektrum": "spectrum",
+  "fungsi basis": "basis function",
+  "basis lengkap": "complete basis set"
+});
+
   const nav = {
     "Dashboard":{id:"Dashboard",en:"Dashboard"},
     "Course":{id:"Perkuliahan",en:"Courses"},
@@ -1279,12 +1321,18 @@
   const enText=new Map(Object.entries(pageText.en).map(([key,value])=>[key.trim(),value]));
   function translateTextNodes(){
     const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
+    const replacements=[...enText.entries()].filter(([k,v])=>k.length>=5&&k!==v).sort((a,b)=>b[0].length-a[0].length);
     let node;
     while((node=walker.nextNode())){
       if(!originalText.has(node)) originalText.set(node,node.nodeValue);
-      const raw=originalText.get(node), key=raw.trim();
-      const translated=enText.get(key);
-      node.nodeValue=(lang==="en" && translated!==undefined)?raw.replace(key,translated):raw;
+      const raw=originalText.get(node);
+      let translated=raw;
+      if(lang==="en"){
+        for(const [source,target] of replacements){
+          if(translated.includes(source)) translated=translated.split(source).join(target);
+        }
+      }
+      node.nodeValue=translated;
     }
   }
   function translateAttributes(){
