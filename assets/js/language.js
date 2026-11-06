@@ -301,6 +301,31 @@
     "Unggah output TD-DFT ke Results Analyzer untuk tabel λ, E, f, ε, dan transisi.":"Upload the TD-DFT output to Results Analyzer to obtain a table of λ, E, f, ε, and transition assignments."
   });
 
+
+  Object.assign(pageText.en,{
+    "Molecular Builder · SMILES → 3D → Input":"Molecular Builder · SMILES → 3D → Input",
+    "Semua berjalan di browser. Status:":"Runs in your browser. Status:",
+    "Menyiapkan 3D…":"Preparing 3D…",
+    "Selesai: ":"Completed: ",
+    "konformer 3D dari PubChem":"3D conformer from PubChem",
+    "pre-optimize kasar di browser: cek geometri, lalu refine (MMFF/xtb)":"rough browser-side pre-optimization: inspect geometry, then refine (MMFF/xTB)",
+    "SMILES tidak valid":"Invalid SMILES",
+    "RDKit.js siap":"RDKit.js ready",
+    "RDKit gagal dimuat: ":"Failed to load RDKit: ",
+    "Mencari…":"Searching…",
+    "Tidak ditemukan.":"No results found.",
+    "Gagal/tidak ditemukan (butuh internet): ":"Search failed or no results (internet connection required): ",
+    "Scaffold harus memuat tepat satu [*].":"The scaffold must contain exactly one [*] attachment point.",
+    " kandidat valid.":" valid candidates.",
+    "Pembangun Molekul":"Molecular Builder",
+    "Bab 1 · Apa itu Computational Chemistry?":"Chapter 1 · What Is Computational Chemistry?",
+    "D1 · Dasar Teori DFT: Hohenberg–Kohn dan Kohn–Sham":"D1 · DFT foundations: Hohenberg–Kohn and Kohn–Sham",
+    "Suku tolakan antar-elektron, ":"The electron–electron repulsion term, ",
+    " menghubungkan gerak semua elektron sehingga persamaan tidak dapat dipisahkan menjadi persamaan satu-elektron yang independen. Hartree–Fock (HF) menggantinya dengan ":" couples the motion of all electrons, so the equation cannot be separated into independent one-electron equations. Hartree–Fock (HF) replaces it with ",
+    "tolakan rata-rata":"an average repulsion field",
+    "tiap elektron bergerak dalam medan rata-rata elektron lain.":"each electron moves in the average field of the other electrons."
+  });
+
   const nav = {
     "Dashboard":{id:"Dashboard",en:"Dashboard"},
     "Course":{id:"Perkuliahan",en:"Courses"},
