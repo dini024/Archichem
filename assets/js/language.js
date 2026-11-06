@@ -1403,9 +1403,9 @@
     }
     apply();
   }
-  if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",init,{once:true}); else init();
   const translate=s=>{const raw=String(s??"");return lang==="en"?(enText.get(raw.trim())||raw):raw};
+  window.SIMONUSA_LANG={get:()=>lang,apply,translate};
   const observer=new MutationObserver(()=>{translateTextNodes();translateAttributes()});
   observer.observe(document.body,{subtree:true,childList:true});
-  window.SIMONUSA_LANG={get:()=>lang,apply,translate};
+  if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",init,{once:true}); else init();
 })();
