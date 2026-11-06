@@ -71,7 +71,8 @@ function relax(m){const mh=m.add_hs();if(!mh)throw new Error('RDKit gagal menamb
  sdf:['mol','  CompChemLab','',`${String(n).padStart(3)}${String(nb).padStart(3)}  0  0  0  0  0  0  0  0999 V2000`,...A.map(x=>x.r.map(v=>v.toFixed(4).padStart(10)).join('')+' '+x.e.padEnd(3)+' 0  0  0  0  0  0  0  0  0  0  0  0'),...B.map(b=>String(b[0]+1).padStart(3)+String(b[1]+1).padStart(3)+String(b[2]).padStart(3)+'  0'),'M  END',''].join('\n')}}
 async function gen3d(){if(!CAN||!RD)return;$('s3').textContent='Menyiapkan 3D…';let src='';
  try{const r=await fetch('https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/smiles/'+encodeURIComponent(CAN)+'/SDF?record_type=3d');if(r.ok){sdf=await r.text();xyz=sdf2xyz(sdf);src='konformer 3D dari PubChem'}}catch(e){}
- if(!src){const m=RD.get_mol(CAN),r=relax(m);m.delete();xyz=r.xyz;sdf=r.sdf;src='pre-optimize kasar di browser: cek geometri, lalu refine (MMFF/xtb)'}
+ if(!src){try{const r=await fetch('https://cactus.nci.nih.gov/chemical/structure/'+encodeURIComponent(CAN)+'/file?format=sdf&get3d=true');if(r.ok){const s=await r.text();if(s.includes('M  END')){sdf=s;xyz=sdf2xyz(sdf);src='konformer 3D dari NCI Chemical Identifier Resolver'}}}catch(e){}}
+ if(!src){const m=RD.get_mol(CAN);try{const r=relax(m);xyz=r.xyz;sdf=r.sdf;src='pre-optimize geometri awal di browser (wajib refine MMFF/xTB/DFT)'}finally{m.delete()}}
  localStorage.setItem('cc_xyz',xyz);$('s3').textContent='Selesai: '+src;
  if(!viewer)viewer=$3Dmol.createViewer($('v3'),{backgroundColor:'white'});viewer.clear();viewer.addModel(xyz,'xyz');viewer.setStyle({},{stick:{radius:.15},sphere:{scale:.25}});viewer.zoomTo();viewer.render();window.addEventListener('resize',()=>{if(viewer){viewer.resize();viewer.render()}},{passive:true})}
 function jsmeOnLoad(){jsme=new JSApplet.JSME('jsme','100%','320px')}
