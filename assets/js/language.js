@@ -1323,18 +1323,24 @@
   const enText=new Map(Object.entries(pageText.en).map(([key,value])=>[key.trim(),value]));
   function translateTextNodes(){
     const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
-    const replacements=[...enText.entries()].filter(([k,v])=>k.length>=5&&k!==v).sort((a,b)=>b[0].length-a[0].length);
+    const replacements=[...enText.entries()].filter(([k,v])=>k.length>=3&&k!==v).sort((a,b)=>b[0].length-a[0].length);
+    const protectedAncestor="script,style,pre,code,textarea,svg,math,mjx-container,.MathJax,.MathJax_Display,[contenteditable='true']";
+    const mathPattern=/((?:\\$\\$[\\s\\S]*?\\$\\$)|(?:\\\\\\[[\\s\\S]*?\\\\\\])|(?:\\\\\\([\\s\\S]*?\\\\\\))|(?:\\$[^$\\n]+\\$))/g;
     let node;
     while((node=walker.nextNode())){
-      if(!originalText.has(node)) originalText.set(node,node.nodeValue);
+      const parent=node.parentElement;
+      if(!parent||parent.closest(protectedAncestor))continue;
+      if(!originalText.has(node))originalText.set(node,node.nodeValue);
       const raw=originalText.get(node);
-      let translated=raw;
-      if(lang==="en"){
+      if(lang!=="en"){node.nodeValue=raw;continue;}
+      node.nodeValue=raw.split(mathPattern).map((part,index)=>{
+        if(index%2===1)return part;
+        let translated=part;
         for(const [source,target] of replacements){
-          if(translated.includes(source)) translated=translated.split(source).join(target);
+          if(translated.includes(source))translated=translated.split(source).join(target);
         }
-      }
-      node.nodeValue=translated;
+        return translated;
+      }).join("");
     }
   }
   function translateAttributes(){
@@ -1349,6 +1355,12 @@
       });
     });
   }
+  function typesetMath(){
+    const run=()=>{if(window.MathJax?.typesetPromise)window.MathJax.typesetPromise().catch(err=>console.error("SIMONUSA MathJax:",err));};
+    if(window.MathJax?.startup?.promise)window.MathJax.startup.promise.then(run).catch(err=>console.error("SIMONUSA MathJax startup:",err));
+    else run();
+  }
+  window.addEventListener("load",()=>setTimeout(typesetMath,0),{once:true});
   function apply(){
     document.documentElement.lang=lang;
     document.querySelectorAll("[data-id][data-en]").forEach(el=>{el.innerHTML=el.dataset[lang]});
@@ -1392,7 +1404,7 @@
       "Input Builder":"Input Builder"
     };
     document.title=lang==="en"?(titleMap[titleID]||enText.get(titleID)||titleID.replace("Apa itu Computational Chemistry?","What Is Computational Chemistry?").replace("Dasar Teori DFT","DFT Foundations").replace("Fungsional, Basis, dan Koreksi Dispersi","Functionals, Basis Sets, and Dispersion Corrections")):titleID;
-    if(window.MathJax?.typesetPromise) window.MathJax.typesetPromise();
+    typesetMath();
     document.dispatchEvent(new CustomEvent("simonusa:languagechange",{detail:{language:lang}}));
   }
   function init(){
