@@ -360,7 +360,23 @@
     });
     const b=document.getElementById("langToggle");
     if(b){b.textContent=lang==="id"?"EN":"ID";b.setAttribute("aria-label",lang==="id"?"Switch to English":"Ganti ke Bahasa Indonesia");b.title=b.getAttribute("aria-label")}
-    document.title=lang==="en"?(titleID.replace("Apa itu Computational Chemistry?","What Is Computational Chemistry?").replace("Dasar Teori DFT","DFT Foundations").replace("Fungsional, Basis, dan Koreksi Dispersi","Functionals, Basis Sets, and Dispersion Corrections").replace("Molecular Builder | CompChem Lab","Molecular Builder | SIMONUSA")):titleID;
+    const titleMap={
+      "Bab 2 · Schrödinger":"Chapter 2 · Schrödinger",
+      "Bab 3 · Atom hidrogen":"Chapter 3 · Hydrogen atom",
+      "Bab 4 · Hartree–Fock dan SCF":"Chapter 4 · Hartree–Fock and SCF",
+      "Bab 5 · Korelasi elektron":"Chapter 5 · Electron correlation",
+      "Bab 6 · Basis set":"Chapter 6 · Basis sets",
+      "Bab 7 · Metode klasik":"Chapter 7 · Classical methods",
+      "Bab 8 · PES dan frekuensi":"Chapter 8 · PES and frequencies",
+      "D3 · Praktik DFT dengan ORCA":"D3 · Practical DFT with ORCA",
+      "D4 · Praktik DFT dengan Gaussian":"D4 · Practical DFT with Gaussian",
+      "D5 · Membaca Output, Kalkulator Energi, dan Troubleshooting":"D5 · Reading outputs, energy calculator, and troubleshooting",
+      "D6 · TD-DFT dan spektrum":"D6 · TD-DFT and spectra",
+      "Molecular Builder | CompChem Lab":"Molecular Builder | SIMONUSA",
+      "SIMONUSA | Courses":"SIMONUSA | Courses",
+      "Input Builder":"Input Builder"
+    };
+    document.title=lang==="en"?(titleMap[titleID]||titleID.replace("Apa itu Computational Chemistry?","What Is Computational Chemistry?").replace("Dasar Teori DFT","DFT Foundations").replace("Fungsional, Basis, dan Koreksi Dispersi","Functionals, Basis Sets, and Dispersion Corrections")):titleID;
     if(window.MathJax?.typesetPromise) window.MathJax.typesetPromise();
     document.dispatchEvent(new CustomEvent("simonusa:languagechange",{detail:{language:lang}}));
   }
