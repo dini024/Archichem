@@ -958,6 +958,146 @@
   "Pendekatan Tamm–Dancoff (TDA) menetapkan $\\mathbf B=0$. Intensitas ditentukan": "The Tamm–Dancoff approximation (TDA) sets $\\mathbf B=0$. The intensity is determined"
 });
 
+  Object.assign(pageText.en,{
+  "Planck: energi radiasi benda hitam terkuantisasi, E = hν.": "Planck: blackbody radiation energy is quantized, E = hν.",
+  "Einstein: efek fotolistrik, cahaya datang dalam paket (foton).": "Einstein: the photoelectric effect shows that light arrives in packets (photons).",
+  "Bohr: orbit elektron hidrogen berenergi diskret; menjelaskan garis spektrum, tetapi ad hoc.": "Bohr: hydrogen electron orbits have discrete energies; this explains spectral lines, but the model is ad hoc.",
+  "de Broglie: materi punya panjang gelombang, λ = h/p.": "de Broglie: matter has a wavelength, λ = h/p.",
+  "Heisenberg: mekanika matriks.": "Heisenberg: matrix mechanics.",
+  "Schrödinger: mekanika gelombang, kuantisasi sebagai masalah nilai eigen; terbukti setara dengan mekanika matriks. Born menafsirkan |Ψ|² sebagai rapat peluang.": "Schrödinger: wave mechanics formulates quantization as an eigenvalue problem and is equivalent to matrix mechanics. Born interpreted |Ψ|² as a probability density.",
+  "Nobel Fisika untuk Schrödinger dan Dirac.": "The Nobel Prize in Physics was awarded to Schrödinger and Dirac.",
+  "Ia memberi satu persamaan umum yang, jika diselesaikan, menghasilkan energi diskret dan fungsi gelombang untuk atom dan molekul. Semua metode di course ini (HF, DFT, CC) adalah cara menyelesaikannya secara hampiran. Dirac (1929): hukum fisika untuk kimia sudah diketahui, kesulitannya adalah persamaan terlalu rumit untuk diselesaikan eksak.": "It provides a general equation whose solutions yield discrete energies and wavefunctions for atoms and molecules. All methods in this course (HF, DFT, and CC) are approximate ways of solving it. Dirac (1929) noted that the laws of physics underlying chemistry were known; the difficulty is that the equations are too complex to solve exactly.",
+  "Mengapa jadi dasar?": "Why is it foundational?",
+  "Persamaan dan artinya": "The equation and its meaning",
+  "Bergantung waktu": "Time-dependent",
+  "Partikel bebas (V=0) digambarkan paket gelombang: bagian real dan imajiner berosilasi (fase), |Ψ|² adalah peluang. Perhatikan paket bergerak ke kanan": "A free particle (V=0) is represented by a wave packet: its real and imaginary parts oscillate (phase), while |Ψ|² is the probability density. Observe the packet moving to the right",
+  "(dispersi), konsekuensi langsung persamaan Schrödinger (satuan atom: ħ=m=1, k₀=2).": "(dispersion), a direct consequence of the Schrödinger equation (atomic units: ħ=m=1, k₀=2).",
+  "Pilih dua keadaan dan komposisinya. Satu keadaan eigen: kerapatan diam. Campuran dua keadaan: kerapatan \"berayun\" dengan frekuensi $\\omega=(E_2-E_1)/\\hbar$. Gambar bawah memperlihatkan Ψ sebagai kurva bergerak dan peluang pengukuran.": "Choose two states and their mixture. A single eigenstate has a stationary density. A superposition of two states has an oscillating density with frequency $\\omega=(E_2-E_1)/\\hbar$. The lower plot shows Ψ as a moving curve and the measurement probability.",
+  "Setiap titik adalah satu hasil pengukuran posisi (n₁ di atas). Satu pengukuran acak, tetapi ribuan pengukuran menyusun pola $|\\psi_n|^2$ (garis).": "Each dot represents one position measurement (n₁ above). A single measurement is random, but thousands of measurements reproduce the $|\\psi_n|^2$ probability distribution (line).",
+  "rapat peluang": "probability density",
+  "keadaan sama": "same state",
+  "periode ayunan": "oscillation period",
+  "Orbital": "Orbital",
+  "menentukan energi dan ukuran (kulit).": "determines energy and size (shell).",
+  "menentukan bentuk (s,p,d,f).": "determines shape (s, p, d, f).",
+  "menentukan orientasi.": "determines orientation.",
+  "ikatan terlalu kuat; jarang dipakai molekul": "overbinds; rarely used for molecules",
+  "cepat; baik untuk geometri dan padatan; celah HOMO–LUMO cenderung kecil": "fast; useful for geometries and solids; tends to underestimate HOMO–LUMO gaps",
+  "sedikit lebih akurat": "somewhat more accurate",
+  "standar kimia molekul; lebih mahal": "a standard for molecular chemistry; more expensive",
+  "eksitasi transfer muatan": "charge-transfer excitations",
+  "akurat; paling mahal": "accurate; most expensive",
+  "Anak tangga": "Rung",
+  "Bergantung pada": "Depends on",
+  "Catatan": "Notes",
+  "μ:": "μ:",
+  "κ:": "κ:",
+  "Ilustrasi bentuk fungsi (satuan sembarang, R₀=1).": "Illustration of the functional form (arbitrary units, R₀=1).",
+  "Parameter nyata bergantung fungsional, di ORCA": "Actual parameters depend on the functional; in ORCA",
+  "di Gaussian": "in Gaussian",
+  "Gunakan": "Use",
+  "atau": "or",
+  "untuk": "for",
+  "1 · Optimasi + frekuensi": "1 · Geometry optimization + frequencies",
+  "2 · TD-DFT (struktur sudah optimasi)": "2 · TD-DFT (after geometry optimization)",
+  "Contoh kerja": "Worked examples",
+  "Skrip SLURM (sesuaikan modul/partisi cluster Anda)": "SLURM script (adjust the module and cluster partition)",
+  "Jalankan:": "Run:",
+  "Berkas hasil dan cara memakainya": "Output files and how to use them",
+  "Berkas": "File",
+  "Isi / langkah lanjut": "Contents / next step",
+  "output utama → unggah ke": "main output → upload to",
+  "geometri akhir (untuk Freq/TD-DFT berikutnya)": "final geometry (for subsequent frequency/TD-DFT calculations)",
+  "Hessian untuk restart frekuensi": "Hessian for restarting frequency calculations",
+  "Keberhasilan:": "Successful completion:",
+  "SCF konvergen": "SCF converged",
+  "tanpa nilai negatif": "with no negative values",
+  "memori/CPU habis": "memory/CPU exhausted",
+  "Imajiner besar": "Large imaginary frequency",
+  "Imajiner kecil": "Small imaginary frequency",
+  "Rotasi metil/gugus longgar, grid kasar": "Methyl rotation/soft-group motion, or a coarse grid",
+  "optimasi ketat dengan grid halus; geser sepanjang mode dan optimasi ulang": "perform a tighter optimization with a finer grid; displace along the mode and re-optimize",
+  "ikuti mode imajiner (geser, optimasi ulang); jika target TS, periksa mode dan IRC": "follow the imaginary mode (displace and re-optimize); if targeting a transition state, inspect the mode and run an IRC",
+  "fungsional, pelarut, geometri keadaan dasar, vibronik": "functional, solvent, ground-state geometry, and vibronic effects",
+  "coba CAM-B3LYP/ωB97X-D; sertakan pelarut; bandingkan pola, bukan angka tunggal": "try CAM-B3LYP/ωB97X-D; include solvent effects; compare spectral patterns rather than a single peak",
+  "basis besar, nproc/maxcore tidak sesuai": "large basis set or unsuitable nproc/maxcore settings",
+  "turunkan basis; pastikan": "reduce the basis set; ensure",
+  "lebih banyak siklus": "more cycles",
+  "titik pelana": "saddle point",
+  "Daftar pustaka": "References",
+  "Pustaka": "References",
+  "Referensi pilihan / Selected references": "Selected references",
+  "Faktor peningkatan pertukaran": "Exchange enhancement factor",
+  "Penghalang": "Barrier",
+  "Optimasi": "Optimization",
+  "Course": "Courses",
+  "Perkuliahan": "Courses",
+  "Bab": "Chapter",
+  "Gunakan tepat satu": "Use exactly one",
+  "Database": "Database",
+  "PubChem": "PubChem",
+  "ChEMBL": "ChEMBL",
+  "SMILES": "SMILES",
+  "F\nCl\nBr\nOC\nO\nC\nC#N\nC(=O)O\nC(=O)N\nN\nS(=O)(=O)N": "F\nCl\nBr\nOC\nO\nC\nC#N\nC(=O)O\nC(=O)N\nN\nS(=O)(=O)N",
+  "ORCA Docker Workbench": "ORCA Docker Workbench",
+  "Backend": "Backend",
+  "Parameter": "Parameters",
+  "Opt Freq": "Opt Freq",
+  "Opt": "Opt",
+  "Freq": "Freq",
+  "TDDFT": "TDDFT",
+  "Contoh": "Examples",
+  "Dashboard": "Dashboard",
+  "Results": "Results",
+  "Molecular Builder": "Molecular Builder",
+  "Input Builder": "Input Builder",
+  "← D1": "← D1",
+  "← D2": "← D2",
+  "← D3": "← D3",
+  "← D4": "← D4",
+  "← D5": "← D5",
+  "D2 →": "D2 →",
+  "D3 →": "D3 →",
+  "D4 →": "D4 →",
+  "D5 →": "D5 →",
+  "D6 →": "D6 →",
+  "Normal termination": "Normal termination",
+  "Normal termination of Gaussian": "Normal termination of Gaussian",
+  "Plot": "Plot",
+  "Reset": "Reset",
+  "Jeda animasi": "Pause animation",
+  "Lanjutkan animasi": "Resume animation",
+  "Ulangi animasi": "Reset animation",
+  "Absorbansi": "Absorbance",
+  "Panjang gelombang (nm)": "Wavelength (nm)",
+  "Energi relatif": "Relative energy",
+  "Koordinat reaksi": "Reaction coordinate",
+  "Valence band": "Valence band",
+  "Conduction band": "Conduction band",
+  "Top": "Top",
+  "Bridge": "Bridge",
+  "Hollow": "Hollow",
+  "Reaction coordinate": "Reaction coordinate",
+  "HOMO + phase": "HOMO + phase",
+  "LUMO − phase": "LUMO − phase",
+  "Charge accumulation": "Charge accumulation",
+  "Charge depletion": "Charge depletion",
+  "Total DOS": "Total DOS",
+  "Projected DOS": "Projected DOS",
+  "Potential energy": "Potential energy",
+  "Temperature (scaled)": "Temperature (scaled)",
+  "Spektrum eksperimen (ilustrasi)": "Experimental spectrum (illustrative)",
+  "TD-DFT broadened": "Broadened TD-DFT",
+  "Surface model": "Surface model",
+  "Interface coordinate": "Interface coordinate",
+  "Relative energy": "Relative energy",
+  "Orbital amplitude": "Orbital amplitude",
+  "Energy (eV)": "Energy (eV)",
+  "DOS": "DOS",
+  "Time (ps)": "Time (ps)",
+  "Δρ (illustrative)": "Δρ (illustrative)"
+});
+
   const nav = {
     "Dashboard":{id:"Dashboard",en:"Dashboard"},
     "Course":{id:"Perkuliahan",en:"Courses"},
@@ -967,7 +1107,7 @@
     "ORCA Docker":{id:"ORCA Docker",en:"ORCA Docker"}
   };
   let lang=localStorage.getItem("simonusa-lang")||"id";
-  const originalText=new WeakMap(), originalNav=new WeakMap(), originalPlaceholder=new WeakMap();
+  const originalText=new WeakMap(), originalNav=new WeakMap(), originalPlaceholder=new WeakMap(), originalAttributes=new WeakMap();
   const titleID=document.title;
   const enText=new Map(Object.entries(pageText.en).map(([key,value])=>[key.trim(),value]));
   function translateTextNodes(){
@@ -977,14 +1117,26 @@
       if(!originalText.has(node)) originalText.set(node,node.nodeValue);
       const raw=originalText.get(node), key=raw.trim();
       const translated=enText.get(key);
-      if(lang==="en" && translated!==undefined) node.nodeValue=raw.replace(key,translated);
-      else node.nodeValue=raw;
+      node.nodeValue=(lang==="en" && translated!==undefined)?raw.replace(key,translated):raw;
     }
+  }
+  function translateAttributes(){
+    document.querySelectorAll("*").forEach(el=>{
+      ["placeholder","title","aria-label","alt"].forEach(attr=>{
+        if(!el.hasAttribute(attr))return;
+        if(!originalAttributes.has(el))originalAttributes.set(el,{});
+        const saved=originalAttributes.get(el);
+        if(!(attr in saved))saved[attr]=el.getAttribute(attr);
+        const raw=saved[attr],translated=enText.get((raw||"").trim());
+        el.setAttribute(attr,lang==="en"&&translated?translated:raw);
+      });
+    });
   }
   function apply(){
     document.documentElement.lang=lang;
     document.querySelectorAll("[data-id][data-en]").forEach(el=>{el.innerHTML=el.dataset[lang]});
     translateTextNodes();
+    translateAttributes();
     document.querySelectorAll("[placeholder]").forEach(el=>{
       if(!originalPlaceholder.has(el)) originalPlaceholder.set(el,el.getAttribute("placeholder"));
       const raw=originalPlaceholder.get(el), translated=enText.get(raw.trim());
@@ -1035,5 +1187,8 @@
     apply();
   }
   if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",init,{once:true}); else init();
-  window.SIMONUSA_LANG={get:()=>lang,apply};
+  const translate=s=>{const raw=String(s??"");return lang==="en"?(enText.get(raw.trim())||raw):raw};
+  const observer=new MutationObserver(()=>{translateTextNodes();translateAttributes()});
+  observer.observe(document.body,{subtree:true,childList:true});
+  window.SIMONUSA_LANG={get:()=>lang,apply,translate};
 })();
