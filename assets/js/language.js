@@ -1317,9 +1317,11 @@
     "Molecular Builder":{id:"Pembangun Molekul",en:"Molecular Builder"},
     "Input Builder":{id:"Pembuat Input",en:"Input Builder"},
     "Results":{id:"Analisis Hasil",en:"Results"},
-    "ORCA Docker":{id:"ORCA Docker",en:"ORCA Docker"}
+    "ORCA Docker":{id:"ORCA Docker",en:"ORCA Docker"},
+    "Training Terminal":{id:"Terminal Pelatihan",en:"Training Terminal"},
+    "Linux Pre-test":{id:"Pre-test Linux",en:"Linux Pre-test"}
   };
-  let lang=localStorage.getItem("simonusa-lang")||"id";
+  let lang=localStorage.getItem("simonusa-lang")||"en";
   const originalText=new WeakMap(), originalNav=new WeakMap(), originalPlaceholder=new WeakMap(), originalAttributes=new WeakMap();
   const titleID=document.title;
   const enText=new Map(Object.entries(pageText.en).map(([key,value])=>[key.trim(),value]));
