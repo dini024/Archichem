@@ -1321,7 +1321,7 @@
     "Training Terminal":{id:"Terminal Pelatihan",en:"Training Terminal"},
     "Linux Pre-test":{id:"Pre-test Linux",en:"Linux Pre-test"}
   };
-  let lang=localStorage.getItem("simonusa-lang")||"en";
+  let lang=localStorage.getItem("simonusa-lang-v2")||"en";
   const originalText=new WeakMap(), originalNav=new WeakMap(), originalPlaceholder=new WeakMap(), originalAttributes=new WeakMap();
   const titleID=document.title;
   const enText=new Map(Object.entries(pageText.en).map(([key,value])=>[key.trim(),value]));
@@ -1414,7 +1414,7 @@
   function init(){
     if(!document.getElementById("langToggle")){
       const b=document.createElement("button");b.id="langToggle";b.type="button";b.className="language-toggle";
-      b.addEventListener("click",()=>{lang=lang==="id"?"en":"id";localStorage.setItem("simonusa-lang",lang);apply()});
+      b.addEventListener("click",()=>{lang=lang==="id"?"en":"id";localStorage.setItem("simonusa-lang-v2",lang);apply()});
       document.body.appendChild(b);
     }
     apply();
