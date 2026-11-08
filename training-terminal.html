@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SIMONUSA | Linux & HPC Training Terminal</title>
+<link rel="stylesheet" href="assets/css/style.css">
+<script defer src="assets/js/language.js"></script>
+<style>
+.training{max-width:1120px;margin:24px auto;padding:0 18px}.terminal{background:#101820;color:#e7edf4;border:1px solid #344454;border-radius:12px;overflow:hidden;font:14px/1.55 ui-monospace,SFMono-Regular,Consolas,monospace}.termbar{display:flex;justify-content:space-between;align-items:center;background:#1c2a36;padding:10px 14px;color:#dce6ef}.lights{display:flex;gap:6px}.lights i{width:10px;height:10px;border-radius:50%;background:#e66}.lights i:nth-child(2){background:#e5b34c}.lights i:nth-child(3){background:#55bd76}.termout{height:390px;overflow:auto;padding:16px;white-space:pre-wrap;overflow-wrap:anywhere}.termline{display:flex;gap:9px;padding:12px 16px;border-top:1px solid #344454}.prompt{color:#7ee0a0;white-space:nowrap}.termline input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:#fff;font:inherit}.termline button{background:#2864c5;color:white;border:0;border-radius:6px;padding:6px 12px}.status{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}.status span{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:7px 10px}.hint{font-size:.9rem;color:var(--muted)}.cmds{display:flex;gap:7px;flex-wrap:wrap}.cmds button{font:12px ui-monospace,monospace}.notice{border-left:4px solid #d69b24;padding:10px 14px;background:var(--card);border-radius:6px}.filegrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}.filegrid .card{margin:0}.termout .ok{color:#7ee0a0}.termout .warn{color:#ffd479}.termout .err{color:#ff9696}
+</style>
+</head>
+<body>
+<main class="training">
+<nav><a href="index.html">Dashboard</a><a href="course.html">Courses</a><a href="pretest.html">Linux Pre-test</a><a href="molecular-builder.html">Molecular Builder</a><a href="input-builder.html">Input Builder</a><a href="results-analyzer.html">Results</a><a href="training-terminal.html">Training Terminal</a></nav>
+<div class="kicker">SIMONUSA · PRACTICAL ENVIRONMENT</div>
+<h1>Linux & HPC Training Terminal</h1>
+<p class="lead">Practice everyday Linux commands, prepare an ORCA input file, submit a simulated job, and inspect a sample output—all in your browser.</p>
+<div class="notice"><b>Training environment only.</b> This terminal is a browser-based simulation. It does not connect to BRIN, a remote server, SLURM, Docker, or an ORCA executable. Job results are illustrative sample data, not new quantum-chemical calculations.</div>
+<div class="status"><span>Environment: <b>Browser simulation</b></span><span>Host: <b>simonusa-training</b></span><span>Queue: <b id="queueCount">0 jobs</b></span><span>Current directory: <b id="cwd">/home/student</b></span></div>
+<section class="terminal" aria-label="Simulated Linux terminal">
+<div class="termbar"><div class="lights"><i></i><i></i><i></i></div><b>student@simonusa-training: ~</b><span>TRAINING</span></div>
+<div id="output" class="termout" role="log" aria-live="polite"></div>
+<form id="commandForm" class="termline"><span class="prompt" id="prompt">student@training:~$</span><input id="command" autocomplete="off" spellcheck="false" aria-label="Terminal command" placeholder="Type help and press Enter"><button type="submit">Run</button></form>
+</section>
+<p class="hint">Tip: type <code>help</code> to see available commands. Use the quick-command buttons to explore the workflow.</p>
+<div class="card"><h2>Quick commands</h2><div class="cmds" id="quick">
+<button type="button" data-cmd="help">help</button><button type="button" data-cmd="pwd">pwd</button><button type="button" data-cmd="ls -l">ls -l</button><button type="button" data-cmd="cd water">cd water</button><button type="button" data-cmd="cat water.inp">cat water.inp</button><button type="button" data-cmd="orca water.inp">orca water.inp</button><button type="button" data-cmd="squeue">squeue</button><button type="button" data-cmd="cat water.out">cat water.out</button><button type="button" data-cmd="clear">clear</button></div></div>
+<div class="filegrid">
+<div class="card"><h3>Learning objectives</h3><ul><li>Navigate a Linux file system.</li><li>Create, copy, move, and inspect files.</li><li>Understand a simplified job-submission workflow.</li><li>Identify key sections in an ORCA output file.</li></ul></div>
+<div class="card"><h3>Suggested exercise</h3><ol><li>Run <code>pwd</code> and <code>ls</code>.</li><li>Open <code>water.inp</code>.</li><li>Submit <code>orca water.inp</code>.</li><li>Monitor with <code>squeue</code>.</li><li>Read <code>water.out</code> after completion.</li></ol></div>
+</div>
+</main>
+<script>
+(()=>{
+const $=id=>document.getElementById(id), out=$('output');
+const dirs={'/home/student':{dirs:['water','projects'],files:['README.txt']},'/home/student/water':{dirs:[],files:['water.inp']},'/home/student/projects':{dirs:[],files:[]}};
+const files={
+'/home/student/README.txt':'SIMONUSA Linux & HPC Training Environment\nThis is a browser-only command simulator.\nTry: help, pwd, ls, cd water, cat water.inp, orca water.inp, squeue.',
+'/home/student/water/water.inp':'! B3LYP def2-SVP TightSCF\n%pal nprocs 2 end\n%maxcore 1000\n\n* xyz 0 1\nO  0.000000  0.000000  0.000000\nH  0.758602  0.000000  0.504284\nH -0.758602  0.000000  0.504284\n*\n'
+};
+let cwd='/home/student',jobs=[],nextJob=1;
+function write(s='',cls=''){const d=document.createElement('div');if(cls)d.className=cls;d.textContent=s;out.appendChild(d);out.scrollTop=out.scrollHeight}
+function prompt(){const p=cwd.replace('/home/student','~')||'~';$('prompt').textContent='student@training:'+p+'$';$('cwd').textContent=cwd}
+function update(){ $('queueCount').textContent=jobs.filter(j=>j.status==='QUEUED'||j.status==='RUNNING').length+' active';prompt()}
+function path(p){if(!p||p==='~')return '/home/student';if(p.startsWith('/'))return norm(p);return norm(cwd+'/'+p)}
+function norm(p){const a=[];p.split('/').forEach(x=>{if(!x||x==='.')return;if(x==='..')a.pop();else a.push(x)});return '/'+a.join('/')}
+function read(p){return files[p]}
+function help(){return [
+'Available commands (simulation):',
+'  pwd                 print the current working directory',
+'  ls [-l]             list files and directories',
+'  cd DIR              change directory; cd ..; cd ~',
+'  mkdir DIR           create a directory',
+'  touch FILE          create an empty file',
+'  cat FILE            display a text file',
+'  head FILE           display the first 10 lines',
+'  wc -l FILE          count lines',
+'  grep TEXT FILE      search for text in a file',
+'  cp SRC DEST         copy a file',
+'  mv SRC DEST         move or rename a file',
+'  rm FILE             remove a file',
+'  echo TEXT > FILE    write text to a file',
+'  whoami              show the simulated username',
+'  hostname            show the simulated host',
+'  df -h               show illustrative disk information',
+'  free -h             show illustrative memory information',
+'  orca FILE.inp       submit a simulated ORCA job',
+'  sbatch FILE.slurm   submit a simulated batch job',
+'  squeue              show simulated queued/running jobs',
+'  sacct               show simulated job history',
+'  clear               clear the terminal',
+'  reset               reset the training file system'
+].join('\n')}
+function submit(file,kind){if(!files[file])return 'Error: input file not found: '+file;const id='SIM-'+String(nextJob++).padStart(4,'0'),j={id,file,name:file.split('/').pop(),status:'QUEUED',kind};jobs.push(j);update();write('Submitted '+kind+' training job '+id,'ok');write('Job name: '+j.name);write('Status: QUEUED — this is a simulated job.');setTimeout(()=>{j.status='RUNNING';update();write('['+id+'] Status: RUNNING','warn')},1400);setTimeout(()=>{j.status='COMPLETED';update();files[file.replace(/\.inp$|\.slurm$/,'')+'.out']=sampleOutput(j);if(!dirs[cwd].files.includes(j.name.replace(/\.inp$|\.slurm$/,'')+'.out'))dirs[cwd].files.push(j.name.replace(/\.inp$|\.slurm$/,'')+'.out');write('['+id+'] Status: COMPLETED','ok');write('Sample output created: '+j.name.replace(/\.inp$|\.slurm$/,'')+'.out');write('Reminder: no ORCA executable was run.','warn')},3600);return 'Job '+id+' accepted by the simulated queue.'}
+function sampleOutput(j){return `                         ORCA TRAINING OUTPUT
+              SIMULATED SAMPLE — NOT A REAL CALCULATION
+Input file: ${j.file}
+Program: ORCA (illustrative output format)
+Method: B3LYP / def2-SVP
+Number of atoms: 3
+
+FINAL SINGLE POINT ENERGY      -76.XXXXXXX Eh
+SCF CONVERGED
+THE OPTIMIZATION HAS CONVERGED
+CARTESIAN COORDINATES (ANGSTROEM)
+O       0.000000    0.000000    0.000000
+H       0.758602    0.000000    0.504284
+H      -0.758602    0.000000    0.504284
+
+VIBRATIONAL FREQUENCIES
+  1:  1595.0 cm**-1
+  2:  3657.0 cm**-1
+  3:  3756.0 cm**-1
+
+ORBITAL ENERGIES (illustrative)
+HOMO       -0.5000 Eh
+LUMO        0.1000 Eh
+HOMO-LUMO GAP  0.6000 Eh
+
+ORCA TERMINATED NORMALLY (SIMULATED)
+`}
+function run(raw){const s=raw.trim();if(!s)return;write('student@training:'+cwd.replace('/home/student','~')+'$ '+s);const a=s.match(/"(?:[^"]*)"|'(?:[^']*)'|\S+/g)||[],cmd=a[0],args=a.slice(1).map(x=>x.replace(/^['"]|['"]$/g,''));let result='';
+const target=x=>path(x);
+switch(cmd){
+case 'help':result=help();break;
+case 'pwd':result=cwd;break;
+case 'whoami':result='student';break;
+case 'hostname':result='simonusa-training';break;
+case 'clear':out.innerHTML='';return;
+case 'reset':cwd='/home/student';Object.keys(files).forEach(k=>delete files[k]);Object.assign(files,{'/home/student/README.txt':'SIMONUSA training file system reset.','/home/student/water/water.inp':'! B3LYP def2-SVP TightSCF\n* xyz 0 1\nO 0 0 0\nH 0.7586 0 0.5043\nH -0.7586 0 0.5043\n*'});Object.keys(dirs).forEach(k=>{dirs[k].files=[];dirs[k].dirs=[]});dirs['/home/student'].dirs=['water','projects'];dirs['/home/student'].files=['README.txt'];dirs['/home/student/water'].files=['water.inp'];jobs=[];nextJob=1;update();result='Training file system reset.';break;
+case 'ls':{const d=dirs[cwd];result=[...d.dirs.map(x=>x+'/'),...d.files].join(args.includes('-l')?'\n':'  ')||'(empty directory)';break}
+case 'cd':{const p=target(args[0]);if(dirs[p]){cwd=p;update()}else result='cd: no such directory: '+(args[0]||'');break}
+case 'mkdir':{const p=target(args[0]);if(!args[0]){result='mkdir: missing operand';break}if(dirs[p]||files[p]){result='mkdir: already exists';break}dirs[p]={dirs:[],files:[]};dirs[cwd].dirs.push(args[0].split('/').pop());result='Created directory '+p;break}
+case 'touch':{const p=target(args[0]);if(!args[0]){result='touch: missing file operand';break}files[p]=files[p]||'';const n=p.split('/').pop();if(!dirs[cwd].files.includes(n))dirs[cwd].files.push(n);result='Created file '+n;break}
+case 'cat':case 'head':{const p=target(args[0]);result=files[p]===undefined?'cat: file not found':cmd==='head'?files[p].split('\n').slice(0,10).join('\n'):files[p];break}
+case 'wc':{const p=target(args[1]||args[0]);result=files[p]===undefined?'wc: file not found':files[p].split('\n').length+' '+(args[1]||args[0]);break}
+case 'grep':{const p=target(args[1]);result=files[p]===undefined?'grep: file not found':files[p].split('\n').filter(x=>x.includes(args[0])).join('\n')||'No matching lines';break}
+case 'cp':case 'mv':{const src=target(args[0]),dst=target(args[1]);if(files[src]===undefined){result=cmd+': source file not found';break}files[dst]=files[src];if(cmd==='mv')delete files[src];const n=dst.split('/').pop();if(!dirs[cwd].files.includes(n))dirs[cwd].files.push(n);result=cmd==='cp'?'Copied file.':'Moved file.';break}
+case 'rm':{const p=target(args[0]);if(files[p]===undefined){result='rm: file not found';break}delete files[p];dirs[cwd].files=dirs[cwd].files.filter(x=>x!==p.split('/').pop());result='Removed '+p.split('/').pop();break}
+case 'echo':{const m=s.match(/^echo\s+(.+?)\s*>\s*(\S+)$/);if(!m){result='Usage: echo "text" > file';break}const p=target(m[2]);files[p]=m[1].replace(/^['"]|['"]$/g,'')+'\n';const n=p.split('/').pop();if(!dirs[cwd].files.includes(n))dirs[cwd].files.push(n);result='Wrote '+n;break}
+case 'df':result='Filesystem      Size  Used Avail Use% Mounted on\ntraining-fs      10G  1.2G  8.8G  12% /home/student (illustrative)';break;
+case 'free':result='              total        used        free\nMem:           8Gi        2Gi         6Gi (illustrative)';break;
+case 'orca':result=args[0]?submit(target(args[0]),'ORCA'): 'Usage: orca input.inp';break;
+case 'sbatch':result=args[0]?submit(target(args[0]),'SLURM'): 'Usage: sbatch job.slurm';break;
+case 'squeue':result='JOBID       NAME          USER     ST\n'+(jobs.filter(j=>j.status==='QUEUED'||j.status==='RUNNING').map(j=>j.id.padEnd(12)+j.name.padEnd(14)+'student  '+(j.status==='QUEUED'?'PD':'R')).join('\n')||'(no active jobs)');break;
+case 'sacct':result='JobID       JobName       State\n'+(jobs.map(j=>j.id.padEnd(12)+j.name.padEnd(14)+j.status).join('\n')||'(no job history)');break;
+default:result=cmd+': command not found. Type help to see available commands.'; 
+}
+if(result)write(result,result.startsWith('Error')?'err':'');
+}
+$('commandForm').addEventListener('submit',e=>{e.preventDefault();const v=$('command').value;$('command').value='';run(v)});
+$('quick').addEventListener('click',e=>{const b=e.target.closest('button[data-cmd]');if(b)run(b.dataset.cmd)});
+write('SIMONUSA Linux & HPC Training Terminal','ok');
+write('Browser-only educational simulation. No remote connection and no real ORCA calculation.','warn');
+write('Type help to list commands. Try: pwd, ls -l, cd water, cat water.inp, orca water.inp.');
+update();
+})();
+</script>
+</body></html>
