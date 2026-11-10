@@ -1,9 +1,19 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ORCA Docker Workbench</title><link rel="stylesheet" href="assets/css/style.css"><script src="https://3Dmol.org/build/3Dmol-min.js"></script><script src="assets/js/api.js"></script><script src="assets/js/parsers.js"></script><script defer src="assets/js/language.js"></script></head><body>
-<h1>ORCA Docker Workbench</h1><nav><a href="index.html">Dashboard</a><a href="course.html">Course</a><a href="molecular-builder.html">Molecular Builder</a><a href="input-builder.html">Input Builder</a><a href="results-analyzer.html">Results</a><a href="orca-docker.html">ORCA Docker</a><a href="training-terminal.html">Training Terminal</a></nav>
-<div class="card"><h3>Catatan akses HPC BRIN</h3><p>Pengiriman job ke akun HPC bersama belum diaktifkan. Fitur ini baru boleh dibuka setelah tersedia autentikasi individual mahasiswa melalui layanan institusi, pembatasan job dan direktori, serta persetujuan administrator HPC. Jangan memasukkan password atau private key HPC ke halaman ini.</p></div>\n<div class="card"><h3>1. Kirim job</h3>Nama <input id="jn" value="dock1" size="10"> Backend <select id="be"><option value="local">Docker lokal (MacBook)</option><option value="slurm" disabled>SLURM BRIN — belum diaktifkan (akses aman diperlukan)</option></select> nproc <input id="np" type="number" value="4" style="width:60px"> File input utama <input id="mn" placeholder="job.inp" size="12"><br>
-File (input .inp + struktur .xyz/.pdb/.sdf): <input type="file" id="fl" multiple> <button onclick="submitJob()">Kirim</button> <span id="msg"></span><br><small>Workbench tidak mengubah input Anda; tulis input ORCA (mis. job docking) sendiri atau buat di Input Builder. Koneksi di Dashboard.</small></div>
+<h1>ORCA Docker Workbench</h1><p class="lead">Run ORCA in a user-provided Docker image on your own computer, monitor calculations, and compare results from multiple ORCA output files.</p><nav><a href="index.html">Dashboard</a><a href="course.html">Course</a><a href="molecular-builder.html">Molecular Builder</a><a href="input-builder.html">Input Builder</a><a href="results-analyzer.html">Results</a><a href="orca-docker.html">ORCA Docker</a><a href="training-terminal.html">Training Terminal</a></nav>
+<div class="card"><h3>Run ORCA with Docker Desktop (local computer)</h3>
+<p>This workbench does not include ORCA. You must provide a Docker image that you are legally entitled to use and that contains a working ORCA installation. The following commands are run in the macOS Terminal, not in this webpage.</p>
+<ol><li>Install and open Docker Desktop. Wait until Docker reports that its engine is running.</li><li>In the Archichem project directory, install the local agent once:</li></ol>
+<pre><code>./local-agent/install.sh</code></pre>
+<p>Start the local agent in a Terminal window. Replace the image placeholder with the name of your own ORCA Docker image:</p>
+<pre><code>ORCA_IMAGE=your-orca-image:tag .venv/bin/python local-agent/agent.py</code></pre>
+<p>The agent prints an API token. Keep this Terminal window open while submitting jobs. In the SIMONUSA Dashboard, configure the local API URL as <code>http://127.0.0.1:8765</code> and paste the token. Then return here, select <b>Docker local (MacBook)</b>, upload the <code>.inp</code> file and any required structure files, and submit.</p>
+<p><b>Apple Silicon note:</b> if your ORCA image is x86_64 only, start the agent with <code>DOCKER_PLATFORM=linux/amd64</code> as well as <code>ORCA_IMAGE=...</code>. Emulation can be slower. The Docker image must contain ORCA and its runtime dependencies; SIMONUSA does not download or distribute ORCA.</p>
+<p><b>Security:</b> the local agent binds to <code>127.0.0.1</code>. Do not expose it publicly or publish its token. Docker execution is local and is not a connection to BRIN HPC.</p></div>
+<div class="card"><h3>BRIN HPC access policy</h3><p>Submission to a shared BRIN HPC account remains disabled. It requires individual student authentication, isolated working directories, job limits, and HPC administrator approval. Never put an HPC password or private SSH key in GitHub Pages.</p></div>
+<div class="card"><h3>1. Submit a Docker job</h3>Nama <input id="jn" value="dock1" size="10"> Backend <select id="be"><option value="local">Docker lokal (MacBook)</option><option value="slurm" disabled>SLURM BRIN — belum diaktifkan (akses aman diperlukan)</option></select> nproc <input id="np" type="number" value="4" style="width:60px"> Main input file <input id="mn" placeholder="job.inp" size="12"><br>
+Files (.inp input + .xyz/.pdb/.sdf structures): <input type="file" id="fl" multiple> <button onclick="submitJob()">Kirim</button> <span id="msg"></span><br><small>Prepare your ORCA input in Input Builder or upload an existing input. The local agent runs the job inside your supplied Docker image.</small></div>
 <div class="card"><h3>2. Job</h3><button onclick="list()">Refresh</button><table id="jobs"></table></div>
-<div class="card"><h3>3. Hasil</h3>Berkas job: <select id="files" onchange="loadFile()"></select> atau output/pose lokal (tanpa backend): <input type="file" id="of"><br>
+<div class="card"><h3>3. View a job result</h3>Job file: <select id="files" onchange="loadFile()"></select> or inspect a local output/structure file: <input type="file" id="of" accept=".out,.log,.txt,.xyz,.pdb,.sdf" multiple><br>
 <div id="dock"></div><div class="v" id="v"></div>Frame/pose: <input type="range" id="fr" min="0" max="0" value="0" style="width:60%"><pre id="log" style="max-height:200px;overflow:auto"></pre></div>
 <script>
 const q=i=>document.getElementById(i),esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));let cur='',vw;
@@ -16,5 +26,42 @@ async function loadFile(){const n=q('files').value;if(!cur||!n)return;const t=aw
 function dock(t){const d=parse(t,'x').dock;q('dock').innerHTML=d?'<table><tr><th>#</th><th>Kolom 1</th><th>Kolom 2</th><th>Kolom 3</th></tr>'+d.slice(0,60).map(r=>'<tr>'+r.map(x=>'<td>'+esc(x)+'</td>').join('')+'</tr>').join('')+'</table><small>Parser heuristik: format output docking belum diverifikasi dengan file asli.</small>':'<p>Tabel docking tidak terdeteksi di file ini.</p>'}
 function pose(t){if(!vw)vw=$3Dmol.createViewer(q('v'),{backgroundColor:'white'});vw.removeAllModels();vw.addModelsAsFrames(t,'xyz');vw.setStyle({},{stick:{radius:.15},sphere:{scale:.25}});vw.zoomTo();vw.render();q('fr').max=Math.max(0,vw.getNumFrames()-1);q('fr').value=0}
 q('fr').oninput=e=>{vw.setFrame(+e.target.value);vw.render()};
+const outputRows=[];
+function lastMatch(text,regex){let m,last=null;while((m=regex.exec(text))!==null)last=m;return last}
+function analyzeOut(name,text){
+ const energyPatterns=[
+  {re:/FINAL SINGLE POINT ENERGY\\s+(-?\\d+(?:\\.\\d+)?)/g,kind:'ORCA final single-point energy'},
+  {re:/FINAL ENERGY\\s+(-?\\d+(?:\\.\\d+)?)/g,kind:'ORCA final energy'},
+  {re:/SCF Done:\\s+E\\([^)]*\\)\\s*=\\s*(-?\\d+(?:\\.\\d+)?)/g,kind:'Gaussian SCF energy'},
+  {re:/EUMP2\\s*=\\s*(-?\\d+(?:\\.\\d+)?)/g,kind:'Gaussian MP2 energy'}
+ ];
+ let en=null,energyType='';for(const p of energyPatterns){const m=lastMatch(text,p.re);if(m){en=Number(m[1]);energyType=p.kind;break}}
+ const dip=lastMatch(text,/Total Dipole Moment\\s*:?\\s*([-+]?\\d*\\.?\\d+)\\s*(?:Debye|D)?/gi);
+ const dipole=dip?Number(dip[1]):null;
+ const normal=/ORCA TERMINATED NORMALLY|Normal termination of Gaussian/i.test(text);
+ const opt=/OPTIMIZATION RUN DONE|THE OPTIMIZATION HAS CONVERGED|Optimization completed/i.test(text);
+ const program=/Entering Gaussian|Gaussian, Inc/i.test(text)?'Gaussian':/O\\s+R\\s+C\\s+A|ORCA/i.test(text)?'ORCA':'Unknown';
+ return {name,program,energy:en,energyType,dipole,normal,opt,chars:text.length};
+}
+function renderOutputs(){
+ const valid=outputRows.filter(x=>Number.isFinite(x.energy)),min=valid.length?Math.min(...valid.map(x=>x.energy)):null;
+ q('energyTable').querySelector('tbody').innerHTML=outputRows.map(x=>{const rel=min===null||x.energy===null?null:(x.energy-min)*2625.49962;
+ return '<tr><td>'+esc(x.name)+'</td><td>'+x.program+'</td><td>'+(x.energy===null?'Not found':x.energy.toFixed(8))+'</td><td>'+(rel===null?'—':rel.toFixed(3)+' kJ/mol')+'</td><td>'+(x.dipole===null?'Not found':x.dipole.toFixed(4))+'</td><td>'+(x.opt?'Converged':'Not detected')+'</td><td>'+(x.normal?'Normal':'Not normal / unknown')+'</td></tr>'}).join('');
+ q('outMsg').textContent=outputRows.length+' output file(s) analyzed; '+valid.length+' file(s) contain a recognized energy.';
+ q('csvOut').disabled=!outputRows.length;
+}
+q('multiOut').addEventListener('change',async e=>{
+ for(const f of e.target.files){try{outputRows.push(analyzeOut(f.name,await f.text()))}catch(err){q('outMsg').textContent='Could not read '+f.name+': '+err.message}}
+ renderOutputs();e.target.value='';
+});
+q('clearOut').addEventListener('click',()=>{outputRows.length=0;renderOutputs();q('outMsg').textContent='Results cleared.'});
+q('csvOut').addEventListener('click',()=>{
+ const head=['file','program','energy_Eh','energy_type','relative_energy_kJ_mol','dipole_D','optimization_converged','normal_termination'];
+ const valid=outputRows.filter(x=>Number.isFinite(x.energy)),min=valid.length?Math.min(...valid.map(x=>x.energy)):null;
+ const rows=outputRows.map(x=>[x.name,x.program,x.energy??'',x.energyType,min===null||x.energy===null?'':((x.energy-min)*2625.49962).toFixed(6),x.dipole??'',x.opt,x.normal]);
+ const csv=[head,...rows].map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\\n');
+ const a=document.createElement('a'),url=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.href=url;a.download='simonusa_orca_energy_comparison.csv';a.click();URL.revokeObjectURL(url);
+});
+
 q('of').onchange=async e=>{const f=e.target.files[0],t=await f.text();/\.xyz$/.test(f.name)?pose(t):dock(t)};
 </script></body></html>
