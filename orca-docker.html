@@ -1,67 +1,118 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ORCA Docker Workbench</title><link rel="stylesheet" href="assets/css/style.css"><script src="https://3Dmol.org/build/3Dmol-min.js"></script><script src="assets/js/api.js"></script><script src="assets/js/parsers.js"></script><script defer src="assets/js/language.js"></script></head><body>
-<h1>ORCA Docker Workbench</h1><p class="lead">Run ORCA in a user-provided Docker image on your own computer, monitor calculations, and compare results from multiple ORCA output files.</p><nav><a href="index.html">Dashboard</a><a href="course.html">Course</a><a href="molecular-builder.html">Molecular Builder</a><a href="input-builder.html">Input Builder</a><a href="results-analyzer.html">Results</a><a href="orca-docker.html">ORCA Docker</a><a href="training-terminal.html">Training Terminal</a></nav>
-<div class="card"><h3>Run ORCA with Docker Desktop (local computer)</h3>
-<p>This workbench does not include ORCA. You must provide a Docker image that you are legally entitled to use and that contains a working ORCA installation. The following commands are run in the macOS Terminal, not in this webpage.</p>
-<ol><li>Install and open Docker Desktop. Wait until Docker reports that its engine is running.</li><li>In the Archichem project directory, install the local agent once:</li></ol>
-<pre><code>./local-agent/install.sh</code></pre>
-<p>Start the local agent in a Terminal window. Replace the image placeholder with the name of your own ORCA Docker image:</p>
-<pre><code>ORCA_IMAGE=your-orca-image:tag .venv/bin/python local-agent/agent.py</code></pre>
-<p>The agent prints an API token. Keep this Terminal window open while submitting jobs. In the SIMONUSA Dashboard, configure the local API URL as <code>http://127.0.0.1:8765</code> and paste the token. Then return here, select <b>Docker local (MacBook)</b>, upload the <code>.inp</code> file and any required structure files, and submit.</p>
-<p><b>Apple Silicon note:</b> if your ORCA image is x86_64 only, start the agent with <code>DOCKER_PLATFORM=linux/amd64</code> as well as <code>ORCA_IMAGE=...</code>. Emulation can be slower. The Docker image must contain ORCA and its runtime dependencies; SIMONUSA does not download or distribute ORCA.</p>
-<p><b>Security:</b> the local agent binds to <code>127.0.0.1</code>. Do not expose it publicly or publish its token. Docker execution is local and is not a connection to BRIN HPC.</p></div>
-<div class="card"><h3>BRIN HPC access policy</h3><p>Submission to a shared BRIN HPC account remains disabled. It requires individual student authentication, isolated working directories, job limits, and HPC administrator approval. Never put an HPC password or private SSH key in GitHub Pages.</p></div>
-<div class="card"><h3>1. Submit a Docker job</h3>Nama <input id="jn" value="dock1" size="10"> Backend <select id="be"><option value="local">Docker lokal (MacBook)</option><option value="slurm" disabled>SLURM BRIN — belum diaktifkan (akses aman diperlukan)</option></select> nproc <input id="np" type="number" value="4" style="width:60px"> Main input file <input id="mn" placeholder="job.inp" size="12"><br>
-Files (.inp input + .xyz/.pdb/.sdf structures): <input type="file" id="fl" multiple> <button onclick="submitJob()">Kirim</button> <span id="msg"></span><br><small>Prepare your ORCA input in Input Builder or upload an existing input. The local agent runs the job inside your supplied Docker image.</small></div>
-<div class="card"><h3>2. Job</h3><button onclick="list()">Refresh</button><table id="jobs"></table></div>
-<div class="card"><h3>3. View a job result</h3>Job file: <select id="files" onchange="loadFile()"></select> or inspect a local output/structure file: <input type="file" id="of" accept=".out,.log,.txt,.xyz,.pdb,.sdf" multiple><br>
-<div id="dock"></div><div class="v" id="v"></div>Frame/pose: <input type="range" id="fr" min="0" max="0" value="0" style="width:60%"><pre id="log" style="max-height:200px;overflow:auto"></pre></div>
-<script>
-const q=i=>document.getElementById(i),esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));let cur='',vw;
-async function submitJob(){const fd=new FormData();fd.append('name',q('jn').value);fd.append('backend',q('be').value);fd.append('nprocs',q('np').value);fd.append('main',q('mn').value);for(const f of q('fl').files)fd.append('files',f);
- try{const j=await(await API.f('/api/jobs',{method:'POST',body:fd})).json();q('msg').textContent='Job '+j.id.slice(0,8)+': '+j.status+(j.error?' – '+j.error:'');list()}catch(e){q('msg').textContent=e.message}}
-async function list(){try{const js=await(await API.f('/api/jobs')).json();q('jobs').innerHTML='<tr><th>ID</th><th>Nama</th><th>Backend</th><th>Status</th><th></th></tr>'+js.map(j=>`<tr><td>${j.id.slice(0,8)}</td><td>${esc(j.name)}</td><td>${j.backend}</td><td>${j.status}${j.error?' ('+esc(j.error).slice(0,80)+')':''}</td><td><button onclick="openJob('${j.id}')">Buka</button> <button onclick="cancelJob('${j.id}')">Batal</button></td></tr>`).join('')}catch(e){q('msg').textContent=e.message}}
-async function cancelJob(i){await API.f(`/api/jobs/${i}/cancel`,{method:'POST'});list()}
-async function openJob(i){cur=i;const fs=await(await API.f(`/api/jobs/${i}/files`)).json();q('files').innerHTML=fs.map(f=>`<option>${esc(f)}</option>`).join('');q('log').textContent=(await(await API.f(`/api/jobs/${i}/log`)).text()).slice(-4000);const o=fs.find(f=>f.endsWith('.out'));if(o){q('files').value=o;loadFile()}}
-async function loadFile(){const n=q('files').value;if(!cur||!n)return;const t=await(await API.f(`/api/jobs/${cur}/files/${encodeURIComponent(n)}`)).text();/\.xyz$/.test(n)?pose(t):dock(t)}
-function dock(t){const d=parse(t,'x').dock;q('dock').innerHTML=d?'<table><tr><th>#</th><th>Kolom 1</th><th>Kolom 2</th><th>Kolom 3</th></tr>'+d.slice(0,60).map(r=>'<tr>'+r.map(x=>'<td>'+esc(x)+'</td>').join('')+'</tr>').join('')+'</table><small>Parser heuristik: format output docking belum diverifikasi dengan file asli.</small>':'<p>Tabel docking tidak terdeteksi di file ini.</p>'}
-function pose(t){if(!vw)vw=$3Dmol.createViewer(q('v'),{backgroundColor:'white'});vw.removeAllModels();vw.addModelsAsFrames(t,'xyz');vw.setStyle({},{stick:{radius:.15},sphere:{scale:.25}});vw.zoomTo();vw.render();q('fr').max=Math.max(0,vw.getNumFrames()-1);q('fr').value=0}
-q('fr').oninput=e=>{vw.setFrame(+e.target.value);vw.render()};
-const outputRows=[];
-function lastMatch(text,regex){let m,last=null;while((m=regex.exec(text))!==null)last=m;return last}
-function analyzeOut(name,text){
- const energyPatterns=[
-  {re:/FINAL SINGLE POINT ENERGY\\s+(-?\\d+(?:\\.\\d+)?)/g,kind:'ORCA final single-point energy'},
-  {re:/FINAL ENERGY\\s+(-?\\d+(?:\\.\\d+)?)/g,kind:'ORCA final energy'},
-  {re:/SCF Done:\\s+E\\([^)]*\\)\\s*=\\s*(-?\\d+(?:\\.\\d+)?)/g,kind:'Gaussian SCF energy'},
-  {re:/EUMP2\\s*=\\s*(-?\\d+(?:\\.\\d+)?)/g,kind:'Gaussian MP2 energy'}
- ];
- let en=null,energyType='';for(const p of energyPatterns){const m=lastMatch(text,p.re);if(m){en=Number(m[1]);energyType=p.kind;break}}
- const dip=lastMatch(text,/Total Dipole Moment\\s*:?\\s*([-+]?\\d*\\.?\\d+)\\s*(?:Debye|D)?/gi);
- const dipole=dip?Number(dip[1]):null;
- const normal=/ORCA TERMINATED NORMALLY|Normal termination of Gaussian/i.test(text);
- const opt=/OPTIMIZATION RUN DONE|THE OPTIMIZATION HAS CONVERGED|Optimization completed/i.test(text);
- const program=/Entering Gaussian|Gaussian, Inc/i.test(text)?'Gaussian':/O\\s+R\\s+C\\s+A|ORCA/i.test(text)?'ORCA':'Unknown';
- return {name,program,energy:en,energyType,dipole,normal,opt,chars:text.length};
-}
-function renderOutputs(){
- const valid=outputRows.filter(x=>Number.isFinite(x.energy)),min=valid.length?Math.min(...valid.map(x=>x.energy)):null;
- q('energyTable').querySelector('tbody').innerHTML=outputRows.map(x=>{const rel=min===null||x.energy===null?null:(x.energy-min)*2625.49962;
- return '<tr><td>'+esc(x.name)+'</td><td>'+x.program+'</td><td>'+(x.energy===null?'Not found':x.energy.toFixed(8))+'</td><td>'+(rel===null?'—':rel.toFixed(3)+' kJ/mol')+'</td><td>'+(x.dipole===null?'Not found':x.dipole.toFixed(4))+'</td><td>'+(x.opt?'Converged':'Not detected')+'</td><td>'+(x.normal?'Normal':'Not normal / unknown')+'</td></tr>'}).join('');
- q('outMsg').textContent=outputRows.length+' output file(s) analyzed; '+valid.length+' file(s) contain a recognized energy.';
- q('csvOut').disabled=!outputRows.length;
-}
-q('multiOut').addEventListener('change',async e=>{
- for(const f of e.target.files){try{outputRows.push(analyzeOut(f.name,await f.text()))}catch(err){q('outMsg').textContent='Could not read '+f.name+': '+err.message}}
- renderOutputs();e.target.value='';
-});
-q('clearOut').addEventListener('click',()=>{outputRows.length=0;renderOutputs();q('outMsg').textContent='Results cleared.'});
-q('csvOut').addEventListener('click',()=>{
- const head=['file','program','energy_Eh','energy_type','relative_energy_kJ_mol','dipole_D','optimization_converged','normal_termination'];
- const valid=outputRows.filter(x=>Number.isFinite(x.energy)),min=valid.length?Math.min(...valid.map(x=>x.energy)):null;
- const rows=outputRows.map(x=>[x.name,x.program,x.energy??'',x.energyType,min===null||x.energy===null?'':((x.energy-min)*2625.49962).toFixed(6),x.dipole??'',x.opt,x.normal]);
- const csv=[head,...rows].map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\\n');
- const a=document.createElement('a'),url=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.href=url;a.download='simonusa_orca_energy_comparison.csv';a.click();URL.revokeObjectURL(url);
-});
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SIMONUSA | ORCA DOCKER Workbench</title><link rel="stylesheet" href="assets/css/style.css"><script src="https://3Dmol.org/build/3Dmol-min.js"></script><script defer src="assets/js/language.js"></script>
+<style>
+main{max-width:1200px;margin:24px auto;padding:0 18px}.panel{background:var(--card,white);border:1px solid var(--bd,#ddd);border-radius:12px;padding:18px;margin:16px 0}.tablewrap{overflow:auto}table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{padding:9px;border-bottom:1px solid #ddd;text-align:left;white-space:nowrap}th{position:sticky;top:0;background:var(--card,#fff)}input[type=file]{max-width:100%}.viewer{height:430px;border:1px solid #ddd;border-radius:8px;margin-top:12px}.muted{color:var(--muted,#667085)}.warning{border-left:4px solid #d69b24;padding:10px 14px;background:var(--card);border-radius:6px}.actions{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}button{cursor:pointer}.small{font-size:.88rem}
+</style></head><body><main>
+<nav><a href="index.html">Dashboard</a><a href="course.html">Courses</a><a href="molecular-builder.html">Molecular Builder</a><a href="input-builder.html">Input Builder</a><a href="results-analyzer.html">Results</a><a href="orca-docker.html">ORCA DOCKER</a><a href="training-terminal.html">Training Terminal</a></nav>
+<h1>ORCA DOCKER Workbench</h1>
+<p class="lead">Prepare automated host–guest docking inputs, inspect ORCA DOCKER output files, compare optimized docking candidates, and visualize generated structures.</p>
+<div class="warning"><b>Important distinction:</b> ORCA DOCKER is ORCA's energy-driven automated molecular docking algorithm. It is not Docker Desktop, a container, or a cloud service. This page analyzes files produced by an ORCA DOCKER calculation; it does not run ORCA inside GitHub Pages.</div>
+<section class="panel"><h2>1. How ORCA DOCKER works</h2>
+<p>ORCA DOCKER searches for favorable arrangements when a guest molecule approaches a host structure. It evolves candidate arrangements on an energy surface, then performs final optimizations and reports optimized energies and interaction energies. The official ORCA 6.0 tutorial demonstrates this workflow with GFN2-xTB and GFN-FF.</p>
+<pre><code>! XTB PAL4
 
-q('of').onchange=async e=>{const f=e.target.files[0],t=await f.text();/\.xyz$/.test(f.name)?pose(t):dock(t)};
+%DOCKER
+    GUEST "guest.xyz"
+END
+
+*XYZFILE 0 1 host.xyz</code></pre>
+<p><b>Input interpretation:</b> <code>! XTB</code> requests the xTB method; <code>PAL4</code> requests four parallel processes where supported; <code>GUEST</code> specifies the guest structure file; <code>*XYZFILE 0 1 host.xyz</code> defines the host coordinates, total charge 0, and spin multiplicity 1. Adapt the method, charge, multiplicity, and DOCKER settings to your chemical system.</p>
+<p class="small muted">The official tutorial notes that DOCKER is not fully parallelized in ORCA 6.0. Large systems can therefore remain computationally demanding. <a href="https://www.faccts.de/docs/orca/6.0/tutorials/react/docker.html" target="_blank" rel="noopener">Read the ORCA 6.0 DOCKER tutorial</a>.</p></section>
+<section class="panel"><h2>2. Run ORCA DOCKER on your HPC or workstation</h2>
+<p>Prepare the host and guest coordinates as separate XYZ files, then create an ORCA input file referencing them. Run ORCA 6.0 or a compatible version from your licensed installation.</p>
+<pre><code>module load nuclear/orca/6.1.1
+orca docking.inp > docking.out</code></pre>
+<p>For a cluster, follow local policy: use an interactive allocation for a short test or submit a suitable SLURM script for production calculations. Check your installed ORCA version and manual; do not assume every DOCKER keyword is identical across versions.</p>
+<p>Typical files to retrieve after the calculation include <code>docking.out</code>, <code>orca.docker.xyz</code>, and <code>orca.docker.struc1.allopt.xyz</code>. The exact names depend on the input basename and calculation.</p></section>
+<section class="panel"><h2>3. Upload ORCA DOCKER output files</h2>
+<p>Upload one or more <code>.out</code> files to extract candidate structure energies. You may also upload multi-frame XYZ files generated by DOCKER to visualize candidate geometries. All parsing and visualization run in this browser tab; files are not sent to a server.</p>
+<label><b>ORCA output files (.out, .log, .txt)</b></label><br><input id="outFiles" type="file" accept=".out,.log,.txt" multiple>
+<p><label><b>DOCKER structure files (.xyz)</b></label><br><input id="xyzFiles" type="file" accept=".xyz" multiple></p>
+<div class="actions"><button id="analyze">Analyze uploaded files</button><button id="clear">Clear</button><button id="csv" disabled>Download candidate table (CSV)</button></div>
+<p id="status" aria-live="polite" class="muted">No files selected.</p>
+<div class="tablewrap"><table id="results"><thead><tr><th>Output file</th><th>Candidate</th><th>Eopt (Eh)</th><th>Interaction energy (kcal/mol)</th><th>Relative interaction energy (kcal/mol)</th><th>Structure frame</th></tr></thead><tbody><tr><td colspan="6" class="muted">Upload ORCA DOCKER output files to populate this table.</td></tr></tbody></table></div>
+<p class="small muted">The relative interaction energy is calculated against the lowest interaction energy within the same uploaded output file. More negative interaction energy indicates a more favorable interaction under the reported model. Do not compare values across different host/guest compositions or computational protocols without checking that they are comparable.</p>
+</section>
+<section class="panel"><h2>4. Visualize generated docking structures</h2>
+<p>Select an uploaded multi-frame XYZ file, then choose a candidate frame. <code>orca.docker.xyz</code> commonly contains the docked structures; <code>orca.docker.struc1.allopt.xyz</code> contains optimized candidates in the documented example.</p>
+<label>Structure file: <select id="xyzSelect" disabled><option>No XYZ file loaded</option></select></label>
+<label> Candidate frame: <input id="frame" type="range" min="0" max="0" value="0" disabled></label>
+<span id="frameLabel" class="muted">No structure loaded</span>
+<div id="viewer" class="viewer"></div>
+</section>
+<section class="panel"><h2>5. How to interpret the energy table</h2>
+<ul><li><b>Eopt (Eh):</b> optimized total energy of the docked complex as reported in the final optimization table.</li><li><b>Interaction energy (kcal/mol):</b> interaction metric reported by ORCA DOCKER for each optimized candidate. Use this column to identify favorable host–guest arrangements within the same docking calculation.</li><li><b>Relative interaction energy:</b> the candidate interaction energy minus the lowest interaction energy in that same output file.</li><li><b>Lowest interaction energy:</b> the most favorable candidate according to the DOCKER interaction-energy metric, not necessarily the smallest raw total energy across unrelated systems.</li></ul>
+<p class="warning"><b>Scientific caution:</b> DOCKER is a structure-generation and screening method. Its xTB/FF energies are useful for exploring candidate arrangements, but final conclusions may require higher-level optimization, solvent treatment, basis-set checks, and appropriate thermodynamic analysis.</p></section>
+</main>
+<script>
+(()=>{
+const $=id=>document.getElementById(id),outFiles=[],xyzFiles=[],rows=[];
+let viewer=null,frames=[],currentXYZ='';
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function parseDocker(text,name){
+ const found=[];
+ // ORCA 6.0 final optimization table: Struc Eopt Interaction Energy Time
+ const lines=text.split(/\r?\n/);
+ let inTable=false;
+ for(let i=0;i<lines.length;i++){
+  const line=lines[i];
+  if(/Struc\s+Eopt\s+Interaction Energy/i.test(line)){inTable=true;continue}
+  if(inTable){
+   if(/^\s*-{5,}/.test(line))continue;
+   const m=line.match(/^\s*(\d+)\s+(-?\d+\.\d+)\s+(-?\d+\.\d+)\s+([\d.]+)/);
+   if(m){found.push({file:name,candidate:Number(m[1]),eopt:Number(m[2]),interaction:Number(m[3]),frame:Number(m[1])-1})}
+   else if(found.length && /Time for|LOWEST INTERACTION ENERGY|Total time|DOCKER TERMINATED/i.test(line))inTable=false;
+  }
+ }
+ // Fallback to the reported global minimum when no candidate table was parsed.
+ const low=text.match(/LOWEST INTERACTION ENERGY:\s*(-?\d+(?:\.\d+)?)\s*kcal\/mol\s*\(structure\s*(\d+)\)/i);
+ if(!found.length&&low)found.push({file:name,candidate:Number(low[2]),eopt:null,interaction:Number(low[1]),frame:Number(low[2])-1});
+ return {found,normal:/ORCA-DOCKER TERMINATED NORMALLY/i.test(text),low:low?{energy:Number(low[1]),candidate:Number(low[2])}:null};
+}
+function render(){
+ const body=$('results').querySelector('tbody');
+ if(!rows.length){body.innerHTML='<tr><td colspan="6" class="muted">No candidate energies extracted yet.</td></tr>';$('csv').disabled=true;return}
+ body.innerHTML=rows.map(r=>{
+  const same=rows.filter(x=>x.file===r.file&&Number.isFinite(x.interaction)).map(x=>x.interaction);
+  const min=same.length?Math.min(...same):null,rel=min===null||!Number.isFinite(r.interaction)?null:r.interaction-min;
+  return '<tr><td>'+esc(r.file)+'</td><td>'+r.candidate+'</td><td>'+(Number.isFinite(r.eopt)?r.eopt.toFixed(8):'—')+'</td><td>'+(Number.isFinite(r.interaction)?r.interaction.toFixed(6):'—')+'</td><td>'+(rel===null?'—':rel.toFixed(6))+'</td><td>'+(r.frame>=0?r.frame+1:'—')+'</td></tr>'
+ }).join('');
+ $('csv').disabled=false;
+}
+function xyzFrames(text){
+ const lines=text.trim().split(/\r?\n/),arr=[];let i=0;
+ while(i<lines.length){const n=Number(lines[i].trim());if(!Number.isInteger(n)||n<1||i+1+n>=lines.length)break;
+  const block=lines.slice(i,i+n+2).join('\n');arr.push(block);i+=n+2;
+ }
+ return arr;
+}
+function showFrame(index){
+ if(!frames.length)return;
+ const data=frames[index];if(!viewer)viewer=$3Dmol.createViewer($('viewer'),{backgroundColor:'white'});
+ viewer.removeAllModels();viewer.addModel(data,'xyz');viewer.setStyle({},{stick:{radius:.16},sphere:{scale:.24}});viewer.zoomTo();viewer.render();
+ $('frameLabel').textContent='Frame '+(index+1)+' of '+frames.length+' — '+currentXYZ;
+}
+$('analyze').addEventListener('click',async()=>{
+ rows.length=0;outFiles.length=0;xyzFiles.length=0;
+ for(const f of $('outFiles').files){
+  const t=await f.text(),p=parseDocker(t,f.name);rows.push(...p.found);
+  outFiles.push({name:f.name,normal:p.normal,minimum:p.low});
+ }
+ for(const f of $('xyzFiles').files)xyzFiles.push({name:f.name,text:await f.text()});
+ render();
+ $('status').textContent=outFiles.length+' output file(s) read; '+rows.length+' optimized candidate row(s) extracted. '+outFiles.filter(x=>x.normal).length+' file(s) show normal DOCKER termination.';
+ const sel=$('xyzSelect');sel.innerHTML=xyzFiles.length?xyzFiles.map((x,i)=>'<option value="'+i+'">'+esc(x.name)+'</option>').join(''):'<option>No XYZ file loaded</option>';sel.disabled=!xyzFiles.length;
+ if(xyzFiles.length){loadXYZ(0)}
+});
+function loadXYZ(i){const f=xyzFiles[i];if(!f)return;frames=xyzFrames(f.text);currentXYZ=f.name;$('frame').max=Math.max(0,frames.length-1);$('frame').value=0;$('frame').disabled=!frames.length;showFrame(0);if(!frames.length)$('frameLabel').textContent='No valid multi-frame XYZ structures detected in '+f.name}
+$('xyzSelect').addEventListener('change',e=>loadXYZ(Number(e.target.value)));
+$('frame').addEventListener('input',e=>showFrame(Number(e.target.value)));
+$('clear').addEventListener('click',()=>{$('outFiles').value='';$('xyzFiles').value='';rows.length=0;outFiles.length=0;xyzFiles.length=0;frames=[];render();$('status').textContent='Cleared.';$('xyzSelect').innerHTML='<option>No XYZ file loaded</option>';$('xyzSelect').disabled=true;$('frame').disabled=true;$('frameLabel').textContent='No structure loaded';if(viewer){viewer.removeAllModels();viewer.render()}});
+$('csv').addEventListener('click',()=>{
+ const head=['output_file','candidate','Eopt_Eh','interaction_energy_kcal_mol','relative_interaction_energy_kcal_mol','xyz_frame'];
+ const data=rows.map(r=>{const same=rows.filter(x=>x.file===r.file&&Number.isFinite(x.interaction)).map(x=>x.interaction),min=same.length?Math.min(...same):null;return [r.file,r.candidate,r.eopt??'',r.interaction??'',min===null||!Number.isFinite(r.interaction)?'':r.interaction-min,r.frame+1]});
+ const csv=[head,...data].map(a=>a.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');
+ const url=URL.createObjectURL(new Blob([csv],{type:'text/csv'})),a=document.createElement('a');a.href=url;a.download='simonusa_orca_docker_candidates.csv';a.click();URL.revokeObjectURL(url);
+});
+})();
 </script></body></html>
