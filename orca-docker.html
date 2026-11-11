@@ -80,16 +80,46 @@ function render(){
  $('csv').disabled=false;
 }
 function xyzFrames(text){
- const lines=text.trim().split(/\r?\n/),arr=[];let i=0;
- while(i<lines.length){const n=Number(lines[i].trim());if(!Number.isInteger(n)||n<1||i+1+n>=lines.length)break;
-  const block=lines.slice(i,i+n+2).join('\n');arr.push(block);i+=n+2;
+ // Read concatenated XYZ frames, tolerate blank lines and legacy '>' separators.
+ const lines=text.replace(/\r/g,'').split('\n'),arr=[];let i=0;
+ while(i<lines.length){
+  while(i<lines.length&&(!lines[i].trim()||lines[i].trim()==='>'))i++;
+  if(i>=lines.length)break;
+  const n=Number(lines[i].trim());
+  if(!Number.isInteger(n)||n<1){throw new Error('Expected an atom count at line '+(i+1)+', found: '+lines[i].slice(0,80))}
+  if(i+1+n>=lines.length && i+1+n>lines.length-1) {
+   const remaining=lines.slice(i+2).filter(x=>x.trim());
+   if(remaining.length<n)throw new Error('Incomplete XYZ frame at line '+(i+1)+': expected '+n+' atom lines, found '+remaining.length);
+  }
+  const comment=(lines[i+1]??'').trim();
+  const atoms=lines.slice(i+2,i+2+n);
+  if(atoms.length!==n)throw new Error('Incomplete XYZ frame: expected '+n+' atoms, found '+atoms.length);
+  const valid=atoms.every(line=>/^\s*[A-Za-z]{1,3}\s+[-+0-9.eEdD]+\s+[-+0-9.eEdD]+\s+[-+0-9.eEdD]+/.test(line));
+  if(!valid)throw new Error('Invalid atom coordinate line in frame '+(arr.length+1)+'. Expected: Element x y z.');
+  arr.push([String(n),comment,...atoms].join('\n'));
+  i+=n+2;
  }
  return arr;
 }
+function renderXYZFiles(){
+ const sel=$('xyzSelect');
+ sel.innerHTML=xyzFiles.length?xyzFiles.map((x,i)=>'<option value="'+i+'">'+esc(x.name)+'</option>').join(''):'<option>No XYZ file loaded</option>';
+ sel.disabled=!xyzFiles.length;
+ if(xyzFiles.length)loadXYZ(0);
+ else {frames=[];$('frame').disabled=true;$('frameLabel').textContent='No XYZ file loaded';}
+}
+$('xyzFiles').addEventListener('change',async()=>{
+ xyzFiles.length=0;
+ const fs=Array.from($('xyzFiles').files);
+ for(const f of fs){try{xyzFiles.push({name:f.name,text:await f.text()})}catch(e){$('status').textContent='Could not read '+f.name+': '+e.message}}
+ renderXYZFiles();
+ if(xyzFiles.length)$('status').textContent='Loaded '+xyzFiles.length+' XYZ file(s). Select a file and move the frame slider to inspect docking structures.';
+});
 function showFrame(index){
  if(!frames.length)return;
- const data=frames[index];if(!viewer)viewer=$3Dmol.createViewer($('viewer'),{backgroundColor:'white'});
- viewer.removeAllModels();viewer.addModel(data,'xyz');viewer.setStyle({},{stick:{radius:.16},sphere:{scale:.24}});viewer.zoomTo();viewer.render();
+ const data=frames[index];if(!window.$3Dmol){$('frameLabel').textContent='3Dmol.js did not load. Check your internet connection or CDN access.';return}
+ if(!viewer)viewer=$3Dmol.createViewer($('viewer'),{backgroundColor:'white'});
+ viewer.removeAllModels();viewer.addModel(data,'xyz');viewer.setStyle({},{stick:{radius:.16},sphere:{scale:.24}});viewer.zoomTo();viewer.resize();viewer.render();
  $('frameLabel').textContent='Frame '+(index+1)+' of '+frames.length+' — '+currentXYZ;
 }
 $('analyze').addEventListener('click',async()=>{
@@ -101,10 +131,9 @@ $('analyze').addEventListener('click',async()=>{
  for(const f of $('xyzFiles').files)xyzFiles.push({name:f.name,text:await f.text()});
  render();
  $('status').textContent=outFiles.length+' output file(s) read; '+rows.length+' optimized candidate row(s) extracted. '+outFiles.filter(x=>x.normal).length+' file(s) show normal DOCKER termination.';
- const sel=$('xyzSelect');sel.innerHTML=xyzFiles.length?xyzFiles.map((x,i)=>'<option value="'+i+'">'+esc(x.name)+'</option>').join(''):'<option>No XYZ file loaded</option>';sel.disabled=!xyzFiles.length;
- if(xyzFiles.length){loadXYZ(0)}
+ renderXYZFiles();
 });
-function loadXYZ(i){const f=xyzFiles[i];if(!f)return;frames=xyzFrames(f.text);currentXYZ=f.name;$('frame').max=Math.max(0,frames.length-1);$('frame').value=0;$('frame').disabled=!frames.length;showFrame(0);if(!frames.length)$('frameLabel').textContent='No valid multi-frame XYZ structures detected in '+f.name}
+function loadXYZ(i){const f=xyzFiles[i];if(!f)return;try{frames=xyzFrames(f.text);currentXYZ=f.name;$('frame').max=Math.max(0,frames.length-1);$('frame').value=0;$('frame').disabled=!frames.length;if(frames.length){showFrame(0);$('frameLabel').textContent='Frame 1 of '+frames.length+' — '+currentXYZ}else $('frameLabel').textContent='No valid XYZ frames found in '+f.name}catch(e){frames=[];$('frame').disabled=true;$('frameLabel').textContent='XYZ parsing error: '+e.message;$('status').textContent='Could not parse '+f.name+': '+e.message}}
 $('xyzSelect').addEventListener('change',e=>loadXYZ(Number(e.target.value)));
 $('frame').addEventListener('input',e=>showFrame(Number(e.target.value)));
 $('clear').addEventListener('click',()=>{$('outFiles').value='';$('xyzFiles').value='';rows.length=0;outFiles.length=0;xyzFiles.length=0;frames=[];render();$('status').textContent='Cleared.';$('xyzSelect').innerHTML='<option>No XYZ file loaded</option>';$('xyzSelect').disabled=true;$('frame').disabled=true;$('frameLabel').textContent='No structure loaded';if(viewer){viewer.removeAllModels();viewer.render()}});
