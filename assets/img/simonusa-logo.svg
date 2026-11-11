@@ -1,1 +1,25 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 620" role="img" aria-labelledby="t d"><title id="t">SIMONUSA</title><desc id="d">Glowing network outline of the Indonesian archipelago</desc><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#4cecff"/><stop offset=".55" stop-color="#7b9cff"/><stop offset="1" stop-color="#c76bff"/></linearGradient><filter id="glow"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><g fill="none" stroke="url(#g)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)"><path d="M400 28 560 95 680 220 680 420 400 555 120 420 120 220 240 95Z" opacity=".75"/><path d="M400 28 400 190 560 95 520 290 680 220 560 420 400 555 400 390 240 420 120 220 240 95 400 190 680 220M120 220 280 290 400 28M240 95 280 290 400 390 520 290 560 95M120 420 280 290 400 555 520 290 680 420"/><path d="M120 300l22-12 17 10 22-6 18 18 24 2 16 20 25 5 12 18 32 4 18 16 34 4 19-8 22 10 21-9 21 7 18-14 25 2 13-18 22 1 12-22 26 1 16-22 23-2 12-20-13-11-18 9-19-13-22 5-19-12-18 4-18-14-21 9-20-11-22 6-18-16-19 6-16-17-18 4-16-14-18 3-17-17-17 7-16-12-20 8-15-11-18 9-14-13-20 4-16-10-18 7-16-10-18 8-16-12-18 4-13-12-15 5-9-12" stroke-width="4"/><path d="M330 210l25-32 18 8 10 26-14 18-24-4-15 15-17-12zM420 245l12-25 25-5 18 13 22-5 18 14-5 23-21 5-16 17-25-9-13 10-18-13zM540 300l20-18 24 8 16 22-7 28-24 3-16-20z" opacity=".8"/></g><g fill="#8ff5ff" filter="url(#glow)"><circle cx="400" cy="28" r="9"/><circle cx="560" cy="95" r="8"/><circle cx="680" cy="220" r="8"/><circle cx="680" cy="420" r="8"/><circle cx="400" cy="555" r="9"/><circle cx="120" cy="420" r="8"/><circle cx="120" cy="220" r="8"/><circle cx="240" cy="95" r="8"/><circle cx="400" cy="190" r="7"/><circle cx="280" cy="290" r="7"/><circle cx="520" cy="290" r="7"/></g><text x="400" y="600" text-anchor="middle" font-family="Arial,sans-serif" font-size="48" font-weight="700" fill="url(#g)">SIMONUSA</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 220" role="img" aria-labelledby="title desc">
+<title id="title">SIMONUSA — Simulation and Modeling of Nusantara Atoms</title>
+<desc id="desc">A clean red atom symbol with connected island-inspired nodes beside the SIMONUSA wordmark.</desc>
+<defs>
+ <linearGradient id="red" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ef4444"/><stop offset="1" stop-color="#991b1b"/></linearGradient>
+ <linearGradient id="gray" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#64748b"/><stop offset="1" stop-color="#334155"/></linearGradient>
+</defs>
+<g transform="translate(18 12)" fill="none" stroke="url(#red)" stroke-width="8" stroke-linecap="round">
+ <ellipse cx="94" cy="94" rx="79" ry="34" transform="rotate(32 94 94)"/>
+ <ellipse cx="94" cy="94" rx="79" ry="34" transform="rotate(-32 94 94)"/>
+ <ellipse cx="94" cy="94" rx="79" ry="34" transform="rotate(90 94 94)" opacity=".75"/>
+</g>
+<g fill="url(#red)" stroke="#fff" stroke-width="3">
+ <circle cx="112" cy="32" r="10"/><circle cx="177" cy="101" r="10"/><circle cx="107" cy="178" r="10"/><circle cx="29" cy="105" r="10"/>
+</g>
+<g fill="url(#gray)">
+ <path d="M55 93l13-8 9 5 9-4 9 8-5 8-12 1-8 7-11-5-8 3-7-7z"/>
+ <path d="M95 116l8-5 8 3 4 8-8 5-10-3zM128 123l9-4 7 5-4 8-10 1-5-5z"/>
+ <path d="M145 144l7-4 8 4-2 7-8 2-6-4zM72 145l6-4 6 4-3 7-7 1-4-4z"/>
+</g>
+<circle cx="112" cy="106" r="13" fill="#b91c1c" stroke="#fff" stroke-width="4"/>
+<text x="220" y="111" font-family="Inter,Arial,sans-serif" font-size="67" font-weight="850" letter-spacing="-2" fill="#b91c1c">SIMONUSA</text>
+<text x="224" y="151" font-family="Inter,Arial,sans-serif" font-size="19" font-weight="650" letter-spacing="1.5" fill="#334155">SIMULATION &amp; MODELING OF NUSANTARA ATOMS</text>
+<text x="224" y="180" font-family="Inter,Arial,sans-serif" font-size="16" font-weight="500" fill="#64748b">Computational Chemistry Learning Platform</text>
+</svg>
