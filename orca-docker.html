@@ -23,7 +23,7 @@ END
 <pre><code>module load nuclear/orca/6.1.1
 orca docking.inp > docking.out</code></pre>
 <p>For a cluster, follow local policy: use an interactive allocation for a short test or submit a suitable SLURM script for production calculations. Check your installed ORCA version and manual; do not assume every DOCKER keyword is identical across versions.</p>
-<p>Typical files to retrieve after the calculation include <code>docking.out</code>, <code>orca.docker.xyz</code>, and <code>orca.docker.struc1.allopt.xyz</code>. The exact names depend on the input basename and calculation.</p></section>
+<p>Typical files to retrieve after the calculation include <code>docking.out</code>, <code>orca.docker.xyz</code> (best docked structure), and <code>orca.docker.struc1.all.optimized.xyz</code> (all optimized candidates). The exact names depend on the input basename and calculation.</p></section>
 <section class="panel"><h2>3. Upload ORCA DOCKER output files</h2>
 <p>Upload the ORCA <code>.out</code> file to read candidate energies and termination status. Upload one or more DOCKER <code>.xyz</code> files to visualize the structures. XYZ files usually contain coordinates only; they do not reliably store the DOCKER interaction energies. Both file types are needed for a structure–energy comparison. All parsing and visualization run locally in this browser tab; files are not sent to a server.</p>
 <label><b>ORCA output files (.out, .log, .txt)</b></label><br><input id="outFiles" type="file" accept=".out,.log,.txt" multiple>
@@ -34,7 +34,7 @@ orca docking.inp > docking.out</code></pre>
 <p class="small muted">The relative interaction energy is calculated against the lowest interaction energy within the same uploaded output file. More negative interaction energy indicates a more favorable interaction under the reported model. Do not compare values across different host/guest compositions or computational protocols without checking that they are comparable.</p>
 </section>
 <section class="panel"><h2>4. Visualize generated docking structures</h2>
-<p>Select an uploaded multi-frame XYZ file, then choose a candidate frame. <code>orca.docker.xyz</code> commonly contains the docked structures; <code>orca.docker.struc1.allopt.xyz</code> contains optimized candidates in the documented example.</p>
+<p>Select an uploaded multi-frame XYZ file, then choose a candidate frame. <code>orca.docker.xyz</code> commonly contains the docked structures; <code>orca.docker.struc1.all.optimized.xyz</code> contains optimized candidates in the documented example.</p>
 <label>Structure file: <select id="xyzSelect" disabled><option>No XYZ file loaded</option></select></label>
 <label> Candidate frame: <input id="frame" type="range" min="0" max="0" value="0" disabled></label>
 <span id="frameLabel" class="muted">No structure loaded</span>
@@ -51,27 +51,23 @@ let viewer=null,frames=[],currentXYZ='';
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function parseDocker(text,name){
  const found=[],lines=text.replace(/\r/g,'').split('\n');
- let inTable=false,tableSeen=false;
+ let inDocker=false;
  for(let i=0;i<lines.length;i++){
   const line=lines[i];
-  if(/Struc\s+Eopt\s+Interaction\s+Energy/i.test(line)){inTable=true;tableSeen=true;continue}
-  if(inTable){
-   // ORCA 6.0 table columns: structure index, Eopt (Eh), interaction energy (kcal/mol), time (min).
-   const m=line.match(/^\s*(\d+)\s+(-?\d+(?:\.\d+)?(?:[Ee][+-]?\d+)?)\s+(-?\d+(?:\.\d+)?(?:[Ee][+-]?\d+)?)\s+(-?\d+(?:\.\d+)?)/);
+  if(/Starting Docker/i.test(line))inDocker=true;
+  // ORCA's documented DOCKER candidate rows are printed as:
+  // index  Eopt(Eh)  Interaction Energy(kcal/mol)  Time(min).
+  // In some versions the header is absent, so detect numeric rows inside the DOCKER section.
+  if(inDocker){
+   const m=line.match(/^\s*(\d+)\s+(-?\d+\.\d+(?:[Ee][+-]?\d+)?)\s+(-?\d+\.\d+(?:[Ee][+-]?\d+)?)\s+(\d+\.\d+(?:[Ee][+-]?\d+)?)(?:\s|$)/);
    if(m){found.push({file:name,candidate:Number(m[1]),eopt:Number(m[2]),interaction:Number(m[3]),frame:Number(m[1])-1});continue}
-   if(found.length && (/^\s*Time for\b|LOWEST INTERACTION ENERGY|Total time for docking|ORCA-DOCKER TERMINATED/i.test(line)))inTable=false;
   }
+  if(/Total time for docking|ORCA-DOCKER TERMINATED NORMALLY/i.test(line))inDocker=false;
  }
- // Robustly extract the explicit global minimum even if the candidate table layout differs.
  const lowMatches=[...text.matchAll(/LOWEST\s+INTERACTION\s+ENERGY\s*:\s*(-?\d+(?:\.\d+)?(?:[Ee][+-]?\d+)?)\s*kcal\s*\/\s*mol\s*\(\s*structure\s*(\d+)\s*\)/gi)];
  const low=lowMatches.length?lowMatches[lowMatches.length-1]:null;
  if(!found.length&&low)found.push({file:name,candidate:Number(low[2]),eopt:null,interaction:Number(low[1]),frame:Number(low[2])-1});
- // Some ORCA builds phrase the final structure energy differently; retain it as a separate fallback.
- if(!found.length){
-  const alt=[...text.matchAll(/The lowest energy structure was\s*(\d+)\s*,\s*with energy\s*(-?\d+(?:\.\d+)?(?:[Ee][+-]?\d+)?)/gi)];
-  if(alt.length){const m=alt[alt.length-1];found.push({file:name,candidate:Number(m[1]),eopt:Number(m[2]),interaction:null,frame:Number(m[1])-1})}
- }
- return {found,normal:/ORCA-DOCKER TERMINATED NORMALLY/i.test(text),low:low?{energy:Number(low[1]),candidate:Number(low[2])}:null,tableSeen};
+ return {found,normal:/ORCA-DOCKER TERMINATED NORMALLY/i.test(text),low:low?{energy:Number(low[1]),candidate:Number(low[2])}:null};
 }
 function render(){
  const body=$('results').querySelector('tbody');
@@ -98,7 +94,7 @@ function xyzFrames(text){
   const comment=(lines[i+1]??'').trim();
   const atoms=lines.slice(i+2,i+2+n);
   if(atoms.length!==n)throw new Error('Incomplete XYZ frame: expected '+n+' atoms, found '+atoms.length);
-  const valid=atoms.every(line=>/^\s*[A-Za-z]{1,3}\s+[-+0-9.eEdD]+\s+[-+0-9.eEdD]+\s+[-+0-9.eEdD]+/.test(line));
+  const valid=atoms.every(line=>/^\s*[A-Za-z]{1,3}\s+[-+0-9.eEdD]+\s+[-+0-9.eEdD]+\s+[-+0-9.eEdD]+\s*$/.test(line));
   if(!valid)throw new Error('Invalid atom coordinate line in frame '+(arr.length+1)+'. Expected: Element x y z.');
   arr.push([String(n),comment,...atoms].join('\n'));
   i+=n+2;
@@ -139,8 +135,8 @@ $('analyze').addEventListener('click',async()=>{
  messages.push(outFiles.length+' ORCA output file(s) read.');
  messages.push(rows.length+' candidate energy row(s) extracted.');
  messages.push(outFiles.filter(x=>x.normal).length+' file(s) show normal DOCKER termination.');
- if(!outFiles.length&&xyzCount)messages.push('You uploaded XYZ structures only. Upload the matching .out file to display their energies.');
- if(outFiles.length&&!rows.length)messages.push('No recognized DOCKER energy table was found. Check that this is the full ORCA DOCKER .out file, not a truncated output.');
+ if(!outFiles.length&&xyzCount)messages.push('XYZ structure(s) loaded for visualization. No .out file was selected, so candidate energies cannot be extracted yet. Upload the matching full .out file.');
+ if(outFiles.length&&!rows.length)messages.push('No candidate rows were recognized in the .out file. The ORCA DOCKER output may use a different version or may be incomplete; please provide this .out file for parser validation.');
  if(rows.length&&xyzCount)messages.push('Structure files: '+xyzCount+'. Candidate energies are linked by candidate/frame number where available.');
  $('status').textContent=messages.join(' ');
  renderXYZFiles();
