@@ -1,25 +1,37 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 220" role="img" aria-labelledby="title desc">
-<title id="title">SIMONUSA — Simulation and Modeling of Nusantara Atoms</title>
-<desc id="desc">A clean red atom symbol with connected island-inspired nodes beside the SIMONUSA wordmark.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1408 768" role="img" aria-labelledby="t d">
+<title id="t">SIMONUSA — Simulation and Modeling of Nusantara Atoms</title>
+<desc id="d">The original SIMONUSA identity: a cyan-to-violet glowing network hexagon enclosing a connected map of the Indonesian archipelago, above the SIMONUSA wordmark and tagline.</desc>
 <defs>
- <linearGradient id="red" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ef4444"/><stop offset="1" stop-color="#991b1b"/></linearGradient>
- <linearGradient id="gray" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#64748b"/><stop offset="1" stop-color="#334155"/></linearGradient>
+ <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#182532"/><stop offset=".55" stop-color="#111d2b"/><stop offset="1" stop-color="#071323"/></linearGradient>
+ <linearGradient id="g" x1="0" y1="0" x2="1" y2=".25"><stop stop-color="#39efff"/><stop offset=".48" stop-color="#69c9ff"/><stop offset="1" stop-color="#d45bff"/></linearGradient>
+ <linearGradient id="word" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#53eaff"/><stop offset=".55" stop-color="#69c9ff"/><stop offset="1" stop-color="#a66bff"/></linearGradient>
+ <radialGradient id="halo"><stop stop-color="#1b5a79" stop-opacity=".32"/><stop offset="1" stop-color="#0a1727" stop-opacity="0"/></radialGradient>
+ <filter id="glow" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
 </defs>
-<g transform="translate(18 12)" fill="none" stroke="url(#red)" stroke-width="8" stroke-linecap="round">
- <ellipse cx="94" cy="94" rx="79" ry="34" transform="rotate(32 94 94)"/>
- <ellipse cx="94" cy="94" rx="79" ry="34" transform="rotate(-32 94 94)"/>
- <ellipse cx="94" cy="94" rx="79" ry="34" transform="rotate(90 94 94)" opacity=".75"/>
+<rect width="1408" height="768" fill="url(#bg)"/><ellipse cx="704" cy="300" rx="520" ry="350" fill="url(#halo)"/>
+<g fill="none" stroke="url(#g)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)">
+ <path d="M704 116 525 221 625 178 704 211 784 178 883 221 783 261 625 261 525 221 525 418 625 459 704 406 783 459 883 418 883 221 704 116 704 211 704 406 704 522 525 418 625 459 704 522 783 459 883 418"/>
+ <path d="M525 221 704 211 883 221M625 178 625 261 704 116 783 261 784 178M525 418 625 261 704 406 783 261 883 418M625 459 625 261M783 459 783 261"/>
 </g>
-<g fill="url(#red)" stroke="#fff" stroke-width="3">
- <circle cx="112" cy="32" r="10"/><circle cx="177" cy="101" r="10"/><circle cx="107" cy="178" r="10"/><circle cx="29" cy="105" r="10"/>
+<g fill="#eaffff" stroke="url(#g)" stroke-width="5" filter="url(#glow)">
+ <circle cx="704" cy="116" r="8"/><circle cx="525" cy="221" r="8"/><circle cx="625" cy="178" r="7"/><circle cx="704" cy="211" r="7"/><circle cx="784" cy="178" r="7"/><circle cx="883" cy="221" r="8"/><circle cx="625" cy="261" r="7"/><circle cx="783" cy="261" r="7"/><circle cx="525" cy="418" r="8"/><circle cx="625" cy="459" r="7"/><circle cx="704" cy="406" r="7"/><circle cx="783" cy="459" r="7"/><circle cx="883" cy="418" r="8"/><circle cx="704" cy="522" r="8"/>
 </g>
-<g fill="url(#gray)">
- <path d="M55 93l13-8 9 5 9-4 9 8-5 8-12 1-8 7-11-5-8 3-7-7z"/>
- <path d="M95 116l8-5 8 3 4 8-8 5-10-3zM128 123l9-4 7 5-4 8-10 1-5-5z"/>
- <path d="M145 144l7-4 8 4-2 7-8 2-6-4zM72 145l6-4 6 4-3 7-7 1-4-4z"/>
+<!-- Stylized connected Indonesian archipelago, preserving the supplied logo's silhouette and cyan-violet transition. -->
+<g fill="none" stroke="url(#g)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)">
+ <path d="M531 267l18 5 12 15 17 4 11 15 20 6 8 13 18 4 13 14 22 3 13 12 19 2 16 12 21 1 18 8 19-2 16 8 19-4 14 5 17-5 14 5 19-7 17 4 13-8 16 1 13-10 16 2 13-13 13 2 12-14 11 2 9-14 9 2 10-12 9 3 9-11 10 2 8-9 9 1 9-8 8 1 8-8 9 3 7 10-5 12-12 4-6 11-14 0-10 11-14-1-12 8-17-3-12 9-18-4-13 7-20-3-17 5-20-5-20 4-19-6-20 3-18-8-19 2-17-10-17 0-17-12-15 1-15-12-14-1-14-13-12-1-12-13-10-1-10-12-10-2-8-12-9-3-6-13-8-5-3-13z"/>
+ <path d="M605 286l9-12 12 7 5 13 14 3 4 13 13 3 5 12 13 2 4 12 11 4 3 11-10 6-13-7-12 0-11-10-12-1-9-11-13-2-6-11-12-4-4-12-11-4z"/>
+ <path d="M700 281l13-14 12 2 8-11 13 2 8-8 12 6 9-6 14 9 7 12-7 12-11 4-5 14-13 7-9 14-13 2-8 14-14 1-9-10-13-1-7-12-12-3-4-14 9-8z"/>
+ <path d="M748 328l9-9 10 5 8 13-4 13-11 5-8-8zM777 337l10-7 11 7 2 12-9 8-12-6z"/>
+ <path d="M814 307l10-9 8 5 4 12-8 7-10-5zM839 319l9-6 10 8-3 10-11 1zM866 324l8-7 9 5 1 11-10 4zM895 332l9-5 8 8-3 9-11 0z"/>
+ <path d="M920 307l8-8 8 7-3 10-8 2zM943 318l8-5 8 8-4 8-9-2zM967 326l8-7 9 6 2 10-8 5-10-5z"/>
+ <path d="M985 338l12-7 14 7 8 15-7 13-16-2-10-10zM1018 352l10-6 10 9-3 12-12 2z"/>
+ <path d="M1045 365l12-8 15 6 8 12-6 15-14 1-11-10z"/>
+ <path d="M567 282l7-8 8 6 2 11-8 4-8-6zM586 299l7-7 9 6-2 9-8 1zM630 344l8-5 9 7-3 8-9-1zM660 354l8-5 8 7-3 8-8-1zM710 370l7-5 9 6-2 8-8 1zM757 367l7-5 8 7-3 8-8-1zM799 359l7-6 8 5-2 8-8 2zM851 354l8-5 8 7-3 8-8 0zM890 351l8-5 8 8-3 8-8-1zM935 353l8-6 9 8-4 8-9-2zM979 367l8-5 8 7-3 8-9-1z"/>
 </g>
-<circle cx="112" cy="106" r="13" fill="#b91c1c" stroke="#fff" stroke-width="4"/>
-<text x="220" y="111" font-family="Inter,Arial,sans-serif" font-size="67" font-weight="850" letter-spacing="-2" fill="#b91c1c">SIMONUSA</text>
-<text x="224" y="151" font-family="Inter,Arial,sans-serif" font-size="19" font-weight="650" letter-spacing="1.5" fill="#334155">SIMULATION &amp; MODELING OF NUSANTARA ATOMS</text>
-<text x="224" y="180" font-family="Inter,Arial,sans-serif" font-size="16" font-weight="500" fill="#64748b">Computational Chemistry Learning Platform</text>
+<g fill="none" stroke="url(#g)" stroke-width="2.2" opacity=".95">
+ <path d="M542 278l31 18 28 13 31 33 35 20 42 18 47-1 38-9 43-12 39-13 43-13 44-4"/>
+ <path d="M570 288l45 55 47 11 39-73 57 86 58-34 64 16 42-24"/>
+</g>
+<text x="704" y="619" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="84" font-weight="800" letter-spacing="1" fill="url(#word)">SIMONUSA</text>
+<text x="704" y="659" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="19" font-weight="500" letter-spacing=".8" fill="#8bb7e9">SIMULATION AND MODELING OF NUSANTARA ATOMS</text>
 </svg>
